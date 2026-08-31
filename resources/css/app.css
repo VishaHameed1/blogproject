@@ -1,0 +1,586 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    /* Global Font Family Setup - Poppins for Headings, Work Sans for Body */
+    body {
+        font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background-color: #0a0a0a;
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+
+    h1 {
+        font-weight: 800;
+    }
+
+    h2, h3 {
+        font-weight: 700;
+    }
+
+    h4, h5, h6 {
+        font-weight: 600;
+    }
+
+    /* Buttons, CTAs, Nav links - Friendly Poppins */
+    button, .btn, .btn-primary, .btn-rust, .nav-link, .tag, .badge-new {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+    }
+
+    /* Form elements - Comfortable Work Sans */
+    input, textarea, select, .search-input {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 16px !important;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: #c45a2e;
+        box-shadow: 0 0 0 3px rgba(196, 90, 46, 0.15);
+    }
+
+    /* Rust color utilities - Using CSS variables for opacity support */
+    .bg-rust {
+        background-color: #c45a2e;
+    }
+    .bg-rust\/5 {
+        background-color: rgba(196, 90, 46, 0.05);
+    }
+    .bg-rust\/10 {
+        background-color: rgba(196, 90, 46, 0.1);
+    }
+    .bg-rust\/20 {
+        background-color: rgba(196, 90, 46, 0.2);
+    }
+    .bg-rust\/30 {
+        background-color: rgba(196, 90, 46, 0.3);
+    }
+    .bg-rust\/40 {
+        background-color: rgba(196, 90, 46, 0.4);
+    }
+    .bg-rust\/50 {
+        background-color: rgba(196, 90, 46, 0.5);
+    }
+    .bg-rust\/60 {
+        background-color: rgba(196, 90, 46, 0.6);
+    }
+    .bg-rust\/70 {
+        background-color: rgba(196, 90, 46, 0.7);
+    }
+    .bg-rust\/80 {
+        background-color: rgba(196, 90, 46, 0.8);
+    }
+    .bg-rust\/90 {
+        background-color: rgba(196, 90, 46, 0.9);
+    }
+    
+    .text-rust {
+        color: #c45a2e;
+    }
+    .text-rust\/30 {
+        color: rgba(196, 90, 46, 0.3);
+    }
+    .text-rust\/50 {
+        color: rgba(196, 90, 46, 0.5);
+    }
+    .text-rust\/60 {
+        color: rgba(196, 90, 46, 0.6);
+    }
+    .text-rust\/70 {
+        color: rgba(196, 90, 46, 0.7);
+    }
+    .text-rust\/80 {
+        color: rgba(196, 90, 46, 0.8);
+    }
+    
+    .border-rust {
+        border-color: #c45a2e;
+    }
+    .border-rust\/10 {
+        border-color: rgba(196, 90, 46, 0.1);
+    }
+    .border-rust\/20 {
+        border-color: rgba(196, 90, 46, 0.2);
+    }
+    .border-rust\/30 {
+        border-color: rgba(196, 90, 46, 0.3);
+    }
+    .border-rust\/40 {
+        border-color: rgba(196, 90, 46, 0.4);
+    }
+    .border-rust\/50 {
+        border-color: rgba(196, 90, 46, 0.5);
+    }
+    
+    .shadow-rust\/20 {
+        box-shadow: 0 4px 20px rgba(196, 90, 46, 0.2);
+    }
+    .shadow-rust\/30 {
+        box-shadow: 0 6px 25px rgba(196, 90, 46, 0.3);
+    }
+    .shadow-rust\/40 {
+        box-shadow: 0 8px 30px rgba(196, 90, 46, 0.4);
+    }
+    
+    .hover\:shadow-rust\/20:hover {
+        box-shadow: 0 4px 20px rgba(196, 90, 46, 0.2);
+    }
+    .hover\:shadow-rust\/30:hover {
+        box-shadow: 0 6px 25px rgba(196, 90, 46, 0.3);
+    }
+    .hover\:shadow-rust\/40:hover {
+        box-shadow: 0 8px 30px rgba(196, 90, 46, 0.4);
+    }
+    
+    .hover\:bg-rust:hover {
+        background-color: #c45a2e;
+    }
+    .hover\:bg-rust\/80:hover {
+        background-color: rgba(196, 90, 46, 0.8);
+    }
+    .hover\:bg-rust\/90:hover {
+        background-color: rgba(196, 90, 46, 0.9);
+    }
+    .hover\:border-rust:hover {
+        border-color: #c45a2e;
+    }
+    .hover\:border-rust\/30:hover {
+        border-color: rgba(196, 90, 46, 0.3);
+    }
+    .hover\:border-rust\/50:hover {
+        border-color: rgba(196, 90, 46, 0.5);
+    }
+    .hover\:text-rust:hover {
+        color: #c45a2e;
+    }
+    .hover\:text-rust\/80:hover {
+        color: rgba(196, 90, 46, 0.8);
+    }
+
+    /* Custom decoration utilities - FIX for decoration-rust/30 error */
+    .decoration-rust {
+        text-decoration-color: #c45a2e !important;
+    }
+    .decoration-rust\/30 {
+        text-decoration-color: rgba(196, 90, 46, 0.3) !important;
+    }
+    .decoration-rust\/50 {
+        text-decoration-color: rgba(196, 90, 46, 0.5) !important;
+    }
+    .decoration-rust\/70 {
+        text-decoration-color: rgba(196, 90, 46, 0.7) !important;
+    }
+
+    /* Focus states */
+    .focus\:border-rust:focus {
+        border-color: #c45a2e;
+    }
+    .focus\:ring-rust:focus {
+        --tw-ring-color: #c45a2e;
+    }
+    .focus\:ring-rust\/30:focus {
+        --tw-ring-color: rgba(196, 90, 46, 0.3);
+    }
+
+    /* Group hover states */
+    .group-hover\:text-rust:hover {
+        color: #c45a2e;
+    }
+    .group-hover\:border-rust:hover {
+        border-color: #c45a2e;
+    }
+
+    /* Dark theme backgrounds */
+    .bg-charcoal-950 {
+        background-color: #0a0a0a;
+    }
+    .bg-charcoal-900 {
+        background-color: #121212;
+    }
+    .bg-charcoal-800 {
+        background-color: #1a1a1a;
+    }
+    .bg-\[\#0a0a0a\] {
+        background-color: #0a0a0a;
+    }
+    .bg-\[\#121212\] {
+        background-color: #121212;
+    }
+
+    /* Text colors - muted white variants */
+    .text-white\/75 {
+        color: rgba(255, 255, 255, 0.75);
+    }
+    .text-white\/60 {
+        color: rgba(255, 255, 255, 0.60);
+    }
+    .text-white\/50 {
+        color: rgba(255, 255, 255, 0.50);
+    }
+    .text-white\/40 {
+        color: rgba(255, 255, 255, 0.40);
+    }
+    .text-white\/30 {
+        color: rgba(255, 255, 255, 0.30);
+    }
+    .text-white\/20 {
+        color: rgba(255, 255, 255, 0.20);
+    }
+
+    /* Border colors - white variants */
+    .border-white\/5 {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+    .border-white\/10 {
+        border-color: rgba(255, 255, 255, 0.10);
+    }
+
+    /* Custom scrollbar - Dark Theme */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #0a0a0a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #c45a2e;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #d4783e;
+    }
+
+    /* Selection color */
+    ::selection {
+        background: rgba(196, 90, 46, 0.3);
+        color: white;
+    }
+
+    /* Base prose styles for blog content - Updated with Poppins + Work Sans */
+    .prose-custom {
+        @apply text-ink/80 leading-relaxed text-[16px];
+    }
+    
+    .prose-custom p {
+        @apply mb-4 leading-[1.6];
+        font-family: 'Work Sans', sans-serif;
+    }
+    
+    .prose-custom h2 {
+        @apply font-bold text-[36px] leading-[1.2] text-ink mt-8 mb-4;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .prose-custom h3 {
+        @apply font-bold text-[28px] leading-[1.2] text-ink mt-6 mb-3;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .prose-custom h4 {
+        @apply font-bold text-[22px] leading-[1.2] text-ink mt-4 mb-2;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .prose-custom blockquote {
+        @apply border-l-4 border-rust/30 pl-4 py-1 my-6 italic text-ink/60;
+        font-family: 'Work Sans', sans-serif;
+    }
+    
+    .prose-custom ul {
+        @apply my-4 list-disc list-inside;
+        font-family: 'Work Sans', sans-serif;
+    }
+    
+    .prose-custom ol {
+        @apply my-4 list-decimal list-inside;
+        font-family: 'Work Sans', sans-serif;
+    }
+    
+    .prose-custom li {
+        @apply mb-1;
+    }
+    
+    .prose-custom code {
+        @apply bg-rust/10 px-1.5 py-0.5 rounded text-sm text-rust;
+        font-family: 'Work Sans', monospace;
+    }
+    
+    .prose-custom pre {
+        @apply bg-rust/5 p-4 rounded-xl my-6 overflow-x-auto;
+        font-family: 'Work Sans', monospace;
+    }
+    
+    /* FIXED: Using decoration-rust custom class instead of decoration-rust/30 */
+    .prose-custom a {
+        @apply text-rust underline decoration-rust underline-offset-2 hover:text-ink transition-colors;
+        font-family: 'Work Sans', sans-serif;
+    }
+    
+    .prose-custom img {
+        @apply rounded-xl my-6;
+    }
+}
+
+@layer components {
+    /* Category tags using rust color scheme */
+    .tag {
+        @apply bg-rust/10 px-3 py-1 rounded-full text-xs font-medium text-ink/80 hover:bg-rust/20 transition-colors;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* New badge */
+    .badge-new {
+        @apply bg-rust/20 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider text-rust;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Featured card hover effect */
+    .featured-card {
+        @apply bg-white p-6 rounded-2xl transition-all duration-200;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+    }
+    
+    .featured-card:hover {
+        box-shadow: 0 12px 32px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.02);
+        @apply -translate-y-1;
+    }
+    
+    /* Post item */
+    .post-item {
+        @apply border-b border-rust/10 pb-8 last:border-0 last:pb-0;
+    }
+
+    /* Primary button - Rust */
+    .btn-primary {
+        @apply bg-rust text-white px-5 py-2 rounded-full hover:bg-rust/80 transition-colors shadow-lg shadow-rust/20 hover:shadow-rust/40 transform hover:scale-105 font-medium;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Search input */
+    .search-input {
+        @apply flex-1 min-w-[200px] px-4 py-2.5 rounded-full border border-rust/20 bg-white focus:outline-none focus:border-rust focus:ring-2 focus:ring-rust/20 transition-all text-ink;
+        font-family: 'Work Sans', sans-serif;
+    }
+    
+    /* Hero section */
+    .hero-gradient {
+        @apply bg-gradient-to-br from-rust/5 to-rust/10;
+    }
+
+    /* Rust button */
+    .btn-rust {
+        @apply bg-rust text-white hover:bg-rust/80 transition-all duration-300 shadow-lg shadow-rust/20 hover:shadow-rust/40 transform hover:scale-105 font-medium;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Card hover */
+    .card-hover {
+        @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-xl;
+    }
+
+    /* Nav link with rust underline */
+    .nav-link {
+        @apply relative text-white/70 hover:text-white transition-colors duration-300 py-1 group font-medium;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .nav-link::after {
+        @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-rust transition-all duration-300;
+    }
+
+    .nav-link:hover::after {
+        @apply w-full;
+    }
+
+    .nav-link.active {
+        @apply text-white;
+    }
+
+    .nav-link.active::after {
+        @apply w-full;
+    }
+
+    /* Dark theme card */
+    .card-dark {
+        @apply bg-[#121212] border border-white/5 rounded-2xl hover:border-rust/30 transition-all duration-300;
+    }
+
+    /* Dark theme input */
+    .input-dark {
+        @apply w-full px-4 py-2.5 rounded-xl bg-[#0a0a0a]/80 border border-white/5 text-white placeholder:text-white/20 focus:outline-none focus:border-rust focus:ring-1 focus:ring-rust/30 transition-all duration-300 text-base;
+        font-family: 'Work Sans', sans-serif;
+    }
+
+    /* Dark theme button */
+    .btn-dark {
+        @apply bg-rust text-white hover:bg-rust/80 transition-all duration-300 shadow-lg shadow-rust/20 hover:shadow-rust/40 transform hover:scale-[1.02] font-semibold rounded-xl px-6 py-2.5;
+        font-family: 'Poppins', sans-serif;
+    }
+}
+
+@layer utilities {
+    /* Smooth scroll */
+    .scroll-smooth {
+        scroll-behavior: smooth;
+    }
+    
+    /* Text balance for headings */
+    .text-balance {
+        text-wrap: balance;
+    }
+    
+    /* Custom scrollbar using rust color scheme */
+    .scrollbar-custom {
+        scrollbar-width: thin;
+        scrollbar-color: #c45a2e #0a0a0a;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-track {
+        @apply bg-black/50;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+        @apply bg-rust/40 rounded-full;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+        @apply bg-rust/60;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseGlow {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+    }
+
+    @keyframes rotate-beam {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .animate-slide-up {
+        animation: slideUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-pulse-glow {
+        animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    .animation-delay-100 {
+        animation-delay: 0.1s;
+    }
+
+    .animation-delay-200 {
+        animation-delay: 0.2s;
+    }
+
+    .animation-delay-300 {
+        animation-delay: 0.3s;
+    }
+
+    .animation-delay-400 {
+        animation-delay: 0.4s;
+    }
+
+    .animation-delay-500 {
+        animation-delay: 0.5s;
+    }
+
+    /* Vibrant Neon Light Beam Utility */
+    .neon-tracer {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1.5rem;
+        padding: 2px;
+    }
+
+    .neon-tracer::before {
+        content: '';
+        position: absolute;
+        inset: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+            transparent 0deg,
+            transparent 260deg,
+            #c45a2e 290deg,
+            #d4783e 320deg,
+            #e06d44 345deg,
+            #ffffff 360deg
+        );
+        animation: rotate-beam 18s linear infinite;
+        filter: drop-shadow(0 0 10px #c45a2e) drop-shadow(0 0 20px #d4783e);
+        z-index: -1;
+    }
+
+    .neon-tracer .inner {
+        @apply relative z-10 bg-[#121212] rounded-[calc(1.5rem-2px)] p-6 sm:p-8;
+    }
+
+    /* Poppins + Work Sans utility classes */
+    .font-heading {
+        font-family: 'Poppins', sans-serif;
+        letter-spacing: -0.02em;
+    }
+    
+    .font-body {
+        font-family: 'Work Sans', sans-serif;
+    }
+
+    /* Line clamp utilities */
+    .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}

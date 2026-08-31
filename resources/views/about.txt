@@ -1,0 +1,180 @@
+@extends('layouts.public')
+
+@section('title', 'About · chronicle')
+
+@section('content')
+<section class="bg-[#1C1A17] text-[#F8F6F0] w-full font-sans selection:bg-[#C45A2E] selection:text-white py-8 md:py-12">
+
+    {{-- Hero Section: Asymmetric Typography Grid --}}
+    <div class="max-w-7xl mx-auto px-6 md:px-12 pb-16 border-b border-[#F8F6F0]/10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+            <div class="lg:col-span-8">
+                <span class="inline-block text-xs font-mono uppercase tracking-widest text-[#C45A2E] mb-4">
+                    // About Our Publication
+                </span>
+                <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-light tracking-tight leading-[0.95] text-[#F8F6F0]">
+                    Meet the Minds <br/>
+                    <span class="italic font-normal text-[#C45A2E]">Behind the Words</span>
+                </h1>
+            </div>
+            <div class="lg:col-span-4">
+                <p class="text-base text-[#F8F6F0]/70 leading-relaxed font-sans">
+                    We're a collective of creators, builders, and analytical thinkers bringing thoughtful writing to life—providing a quiet corner where ideas take root.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {{-- Core Mission & Dynamic Dual-Image Card --}}
+    <div class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 border-b border-[#F8F6F0]/10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            {{-- Mission Narrative --}}
+            <div class="lg:col-span-5 flex flex-col justify-between space-y-8">
+                <div>
+                    <h2 class="font-serif text-3xl md:text-4xl font-normal leading-tight mb-6">
+                        Why We Started & <br/>What Drives Us
+                    </h2>
+                    <p class="text-[#F8F6F0]/70 text-sm leading-relaxed mb-6">
+                        Writing is hard. It takes time, energy, and focus. Many people spend hours trying to make content that works for blogs, ads, and emails. We built <span class="font-semibold text-[#F8F6F0]">chronicle</span> to make writing faster and stress-free, providing a space where thoughtful essays flourish.
+                    </p>
+                </div>
+
+                {{-- Pull Quote Box --}}
+                <div class="bg-[#26231F] p-8 border-l-2 border-[#C45A2E]">
+                    <blockquote class="font-serif italic text-lg text-[#F8F6F0] leading-snug">
+                        "Dedicated to curated essays, fragments, and observations that matter."
+                    </blockquote>
+                    <p class="text-xs font-mono text-[#F8F6F0]/50 uppercase tracking-widest mt-4">— Editorial Manifesto</p>
+                </div>
+            </div>
+
+            {{-- Visual Showcase Container --}}
+            <div class="lg:col-span-7">
+                <div class="relative w-full h-[480px] rounded-lg overflow-hidden bg-[#26231F] border border-[#F8F6F0]/10 group">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" 
+                         alt="Team collaborating" 
+                         class="w-full h-full object-cover opacity-60 mix-blend-luminosity group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#1C1A17] via-transparent to-transparent pointer-events-none"></div>
+
+                    <div class="absolute bottom-8 left-8 right-8 flex items-end justify-between z-10 text-white">
+                        <div>
+                            <span class="text-xs font-mono uppercase tracking-widest text-[#C45A2E]">Editorial Team</span>
+                            <h3 class="font-serif text-2xl font-light mt-1">Curated Perspectives</h3>
+                        </div>
+                        <span class="font-mono text-3xl font-light opacity-30 text-[#F8F6F0]">01</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {{-- Stats Bar Section --}}
+    <div class="bg-[#26231F] border-b border-[#F8F6F0]/10 py-12">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="border-l border-[#F8F6F0]/15 pl-6">
+                    <div class="font-serif text-4xl md:text-5xl font-light text-[#C45A2E]">{{ $totalPosts }}</div>
+                    <div class="text-xs font-mono uppercase tracking-widest text-[#F8F6F0]/60 mt-1">Posts Published</div>
+                </div>
+                <div class="border-l border-[#F8F6F0]/15 pl-6">
+                    <div class="font-serif text-4xl md:text-5xl font-light text-[#C45A2E]">{{ $totalCategories }}</div>
+                    <div class="text-xs font-mono uppercase tracking-widest text-[#F8F6F0]/60 mt-1">Categories</div>
+                </div>
+                <div class="border-l border-[#F8F6F0]/15 pl-6">
+                    <div class="font-serif text-4xl md:text-5xl font-light text-[#C45A2E]">{{ $totalContributors }}</div>
+                    <div class="text-xs font-mono uppercase tracking-widest text-[#F8F6F0]/60 mt-1">Contributors</div>
+                </div>
+                <div class="border-l border-[#F8F6F0]/15 pl-6">
+                    <div class="font-serif text-4xl md:text-5xl font-light text-[#C45A2E]">{{ $totalReaders }}+</div>
+                    <div class="text-xs font-mono uppercase tracking-widest text-[#F8F6F0]/60 mt-1">Active Readers</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Dynamic Contributors Grid --}}
+    <div class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 border-b border-[#F8F6F0]/10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+                <span class="text-xs font-mono uppercase tracking-widest text-[#C45A2E]">// The Collective</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-normal text-[#F8F6F0] mt-1">Our Contributors</h2>
+            </div>
+            <p class="text-xs font-mono text-[#F8F6F0]/50 mt-2 md:mt-0 uppercase tracking-widest">Writers & Editors</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            @forelse($contributors as $contributor)
+                <div class="bg-[#26231F] border border-[#F8F6F0]/10 p-6 rounded-md hover:border-[#C45A2E]/60 transition-colors group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-[#C45A2E] text-white flex items-center justify-center text-xs font-bold font-mono">
+                            {{ $contributor->initials ?? strtoupper(substr($contributor->name, 0, 2)) }}
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-lg font-medium text-[#F8F6F0] group-hover:text-[#C45A2E] transition-colors">{{ $contributor->name }}</h4>
+                            <p class="text-xs font-mono text-[#F8F6F0]/50 uppercase tracking-wider">{{ $contributor->role->name ?? 'Contributor' }}</p>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full text-center text-[#F8F6F0]/40 py-8 font-mono text-xs uppercase tracking-widest">
+                    No contributors listed yet.
+                </div>
+            @endforelse
+        </div>
+    </div>
+
+    {{-- Dynamic Recent Featured Stories --}}
+    @if($recentPosts->count() > 0)
+    <div class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20">
+        <div class="flex items-center justify-between mb-12">
+            <div>
+                <span class="text-xs font-mono uppercase tracking-widest text-[#C45A2E]">// Selected Works</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-normal text-[#F8F6F0] mt-1">Featured Stories</h2>
+            </div>
+            <a href="{{ route('posts.index') }}" class="text-xs font-mono uppercase tracking-widest text-[#F8F6F0]/60 hover:text-[#C45A2E] transition-colors">
+                View All →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach($recentPosts as $post)
+                <a href="{{ route('posts.show', $post) }}" class="group block border-t border-[#F8F6F0]/20 pt-6">
+                    <div class="h-52 overflow-hidden bg-[#26231F] mb-4 relative rounded-sm border border-[#F8F6F0]/10">
+                        @if($post->featured_image)
+                            <img src="{{ $post->featured_image_url }}" 
+                                 alt="{{ $post->title }}" 
+                                 class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center font-mono text-xs text-[#F8F6F0]/40 uppercase tracking-widest">
+                                [ No Image ]
+                            </div>
+                        @endif
+                    </div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-[#C45A2E]">
+                        {{ $post->category->name ?? 'Uncategorized' }}
+                    </span>
+                    <h4 class="font-serif text-xl font-medium text-[#F8F6F0] group-hover:text-[#C45A2E] transition-colors mt-2 leading-snug line-clamp-2">
+                        {{ $post->title }}
+                    </h4>
+                </a>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+</section>
+
+@push('styles')
+<style>
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+@endpush
+@endsection
