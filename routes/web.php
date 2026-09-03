@@ -147,8 +147,8 @@ Route::middleware(['auth'])->group(function () {
     | Saved Posts & Reading History
     |--------------------------------------------------------------------------
     */
-    Route::get('/saved-posts', [UserActivityController::class, 'savedPosts'])
-        ->name('users.saved');
+    // Route::get('/saved-posts', [UserActivityController::class, 'savedPosts'])
+    //     ->name('users.saved');
 
     Route::get('/history', [UserActivityController::class, 'history'])
         ->name('users.history');
