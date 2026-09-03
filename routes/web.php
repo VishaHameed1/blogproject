@@ -125,6 +125,7 @@ Route::middleware(['auth'])->group(function () {
     */
     // Route::get('/saved-posts', [UserProfileController::class, 'saved'])
     //     ->name('users.saved');
+    // 
 
     Route::post('/saved-posts', [UserProfileController::class, 'toggleSave'])
         ->name('users.saved.store');
