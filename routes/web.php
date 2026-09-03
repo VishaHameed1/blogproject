@@ -123,10 +123,6 @@ Route::middleware(['auth'])->group(function () {
     | Profile & Account Management
     |--------------------------------------------------------------------------
     */
-    // Route::get('/saved-posts', [UserProfileController::class, 'saved'])
-    //     ->name('users.saved');
-
-
     Route::post('/saved-posts', [UserProfileController::class, 'toggleSave'])
         ->name('users.saved.store');
 
@@ -140,15 +136,15 @@ Route::middleware(['auth'])->group(function () {
         ->name('profile.update');
 
     Route::put('/profile/password', [UserProfileController::class, 'updatePassword'])
-        ->name('password.update');
+        ->name('profile.password.update');
 
     /*
     |--------------------------------------------------------------------------
     | Saved Posts & Reading History
     |--------------------------------------------------------------------------
     */
-    // Route::get('/saved-posts', [UserActivityController::class, 'savedPosts'])
-    //     ->name('users.saved');
+    Route::get('/saved-posts', [UserActivityController::class, 'savedPosts'])
+        ->name('users.saved');
 
     Route::get('/history', [UserActivityController::class, 'history'])
         ->name('users.history');
