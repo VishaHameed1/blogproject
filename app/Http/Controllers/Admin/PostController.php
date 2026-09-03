@@ -532,4 +532,57 @@ class PostController extends Controller
             ->route('admin.posts.index')
             ->with('success', 'Publish status updated!');
     }
+
+    /**
+     * Bulk action for posts.
+     */
+    public function bulkAction(Request $request)
+    {
+        $request->validate([
+            'post_ids' => 'required|array',
+            'post_ids.*' => 'exists:posts,id',
+            'action' => 'required|in:publish,unpublish,delete',
+        ]);
+
+        $postIds = $request->post_ids;
+
+        switch ($request->action) {
+            case 'publish':
+                Post::whereIn('id', $postIds)->update([
+                    'is_published' => true,
+                    'status' => 'published',
+                    'published_at' => now(),
+                    'rejection_reason' => null,
+                ]);
+                break;
+
+            case 'unpublish':
+                Post::whereIn('id', $postIds)->update([
+                    'is_published' => false,
+                    'status' => 'draft',
+                    'published_at' => null,
+                ]);
+                break;
+
+            case 'delete':
+                // Delete featured images first
+                $posts = Post::whereIn('id', $postIds)->get();
+                foreach ($posts as $post) {
+                    if (
+                        $post->featured_image &&
+                        !filter_var($post->featured_image, FILTER_VALIDATE_URL)
+                    ) {
+                        Storage::disk('public')->delete($post->featured_image);
+                    }
+                }
+                Post::whereIn('id', $postIds)->delete();
+                break;
+        }
+
+        Cache::forget('posts:index');
+
+        return redirect()
+            ->route('admin.posts.index')
+            ->with('success', 'Bulk action completed successfully!');
+    }
 }

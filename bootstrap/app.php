@@ -12,6 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        /*
+        |--------------------------------------------------------------------------
+        | Trust Proxies - Only enable for production
+        |--------------------------------------------------------------------------
+        */
+        // Only trust proxies if APP_ENV is production
+        if (env('APP_ENV') === 'production') {
+            $middleware->trustProxies(at: '*');
+        }
+
         $middleware->alias([
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
         ]);
@@ -20,4 +30,4 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
-    })->create(); // Must return the Application instance created here
+    })->create();

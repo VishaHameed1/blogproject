@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" data-theme="light">
 
 <head>
 
@@ -109,7 +109,82 @@
 
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 
+    {{-- =========================================================
+         THEME — LOAD BEFORE RENDER
+    ========================================================== --}}
+
+    <script>
+        (() => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+
+            document.documentElement.setAttribute(
+                'data-theme',
+                savedTheme
+            );
+        })();
+    </script>
+
     <style>
+        /* =========================================================
+           CHRONICLE GLOBAL COLOR SYSTEM
+        ========================================================== */
+
+        :root {
+
+            /* Light */
+            --color-bg: #F8F9FA;
+            --color-bg-card: #FFFFFF;
+
+            --color-text-primary: #111827;
+            --color-text-secondary: #6B7280;
+            --color-text-muted: #9CA3AF;
+
+            --color-border: #E5E7EB;
+
+            --color-primary: #7C3AED;
+            --color-primary-hover: #6D28D9;
+            --color-primary-soft: rgba(124, 58, 237, 0.10);
+
+            --color-secondary: #3B82F6;
+            --color-secondary-hover: #2563EB;
+
+            --color-shadow: rgba(0, 0, 0, 0.08);
+            --color-shadow-hover: rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* =========================================================
+           DARK THEME
+        ========================================================== */
+
+        [data-theme="dark"] {
+
+            /* TRUE BLACK PAGE */
+            --color-bg: #0A0A0A;
+
+            /* Slightly elevated surfaces */
+            --color-bg-card: #141414;
+
+            /* Typography */
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #A0A0A0;
+            --color-text-muted: #6B7280;
+
+            /* Borders */
+            --color-border: #2A2A2A;
+
+            /* Dark accent */
+            --color-primary: #3B82F6;
+            --color-primary-hover: #60A5FA;
+            --color-primary-soft: rgba(59, 130, 246, 0.10);
+
+            --color-secondary: #3B82F6;
+            --color-secondary-hover: #60A5FA;
+
+            --color-shadow: rgba(0, 0, 0, 0.30);
+            --color-shadow-hover: rgba(0, 0, 0, 0.50);
+        }
+
         /* Apply Poppins to headings */
         h1, h2, h3, h4, h5, h6,
         .heading-font,
@@ -126,7 +201,7 @@
         /* Post list hover effect */
         .post-item {
             transition: all 0.2s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--color-border);
             padding: 1.5rem 0;
         }
         .post-item:last-child {
@@ -153,7 +228,7 @@
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #0a0a0a;
+            background: var(--color-bg);
         }
         ::-webkit-scrollbar-thumb {
             background: #c45a2e;
@@ -163,24 +238,18 @@
             background: #a0461a;
         }
 
-        /* Override default colors - CHARCOAL backgrounds (not pure black) */
+        /* Background colors using CSS variables */
         body, .min-h-screen, main, footer, header {
-            background-color: #0a0a0a !important;
-        }
-        
-        .bg-charcoal-950, .bg-charcoal-900, .bg-charcoal-800,
-        .bg-\[\#0f0e0d\], .bg-\[\#161513\], .bg-\[\#141311\],
-        .bg-stone-800, .bg-zinc-800 {
-            background-color: #0a0a0a !important;
+            background-color: var(--color-bg) !important;
         }
 
-        /* Card/container backgrounds to charcoal */
+        /* Card/container backgrounds */
         .bg-\[\#121212\], .bg-\[\#1c1a17\], .bg-rust-950\/40,
         .bg-rust-950\/60, .bg-rust-950\/70 {
-            background-color: #121212 !important;
+            background-color: var(--color-bg-card) !important;
         }
 
-        /* RUST colors */
+        /* RUST colors - keep as is for accent */
         .border-rust-950\/40, .border-rust-950\/50, .border-rust-950\/80,
         .border-rust\/10, .border-rust\/20, .border-rust\/40 {
             border-color: rgba(196, 90, 46, 0.1) !important;
@@ -263,52 +332,54 @@
             color: #ffffff !important;
         }
 
-        /* Text colors - White variations */
-        .text-stone-100, .text-white { color: #ffffff !important; }
+        /* Text colors using CSS variables */
+        .text-stone-100, .text-white {
+            color: var(--color-text-primary) !important;
+        }
         .text-stone-200, .text-stone-300, .text-gray-200, .text-gray-300 {
-            color: rgba(255, 255, 255, 0.75) !important;
+            color: var(--color-text-secondary) !important;
         }
         .text-stone-400, .text-gray-400, .text-zinc-400 {
-            color: rgba(255, 255, 255, 0.5) !important;
+            color: var(--color-text-muted) !important;
         }
         .text-stone-500, .text-gray-500, .text-zinc-500 {
-            color: rgba(255, 255, 255, 0.3) !important;
+            color: var(--color-text-muted) !important;
         }
         .hover\:text-stone-100:hover, .hover\:text-white:hover {
-            color: #ffffff !important;
+            color: var(--color-text-primary) !important;
         }
 
-        /* Border colors - White variations */
+        /* Border colors using CSS variables */
         .border-stone-800, .border-zinc-800,
         .border-stone-800\/80, .border-zinc-800\/80,
         .border-stone-700\/80, .border-zinc-700\/80,
         .border-stone-700, .border-zinc-700 {
-            border-color: rgba(255, 255, 255, 0.05) !important;
+            border-color: var(--color-border) !important;
         }
         .border-white\/5 {
-            border-color: rgba(255, 255, 255, 0.05) !important;
+            border-color: var(--color-border) !important;
         }
         .hover\:border-stone-700:hover, .group-hover\:border-stone-700:hover {
-            border-color: rgba(255, 255, 255, 0.05) !important;
+            border-color: var(--color-border) !important;
         }
 
-        /* Background overrides - white variations */
+        /* Background overrides using CSS variables */
         .bg-stone-800\/40, .bg-stone-800\/70,
         .bg-white\/5, .bg-zinc-800\/60, .bg-zinc-800\/90 {
-            background-color: rgba(255, 255, 255, 0.05) !important;
+            background-color: var(--color-bg-card) !important;
         }
         .hover\:bg-stone-800\/70:hover, .hover\:bg-white\/5:hover {
-            background-color: rgba(255, 255, 255, 0.05) !important;
+            background-color: var(--color-bg-card) !important;
         }
 
         .placeholder\:text-stone-500::placeholder,
         .placeholder\:text-zinc-500::placeholder {
-            color: rgba(255, 255, 255, 0.3) !important;
+            color: var(--color-text-muted) !important;
         }
 
         /* Backdrop blur */
         .bg-black\/95, .bg-black\/90 {
-            background-color: rgba(10, 10, 10, 0.95) !important;
+            background-color: var(--color-bg) !important;
         }
 
         /* Logo font override */
@@ -326,8 +397,8 @@
         /* Input styles */
         input[type="text"], input[type="email"], input[type="password"],
         input[type="search"], textarea, select {
-            background-color: #121212 !important;
-            color: #ffffff !important;
+            background-color: var(--color-bg-card) !important;
+            color: var(--color-text-primary) !important;
         }
     </style>
 
@@ -414,7 +485,7 @@
         width: 6px;
     }
     ::-webkit-scrollbar-track {
-        background: #0a0a0a;
+        background: var(--color-bg);
     }
     ::-webkit-scrollbar-thumb {
         background: #c45a2e;
@@ -433,15 +504,15 @@
     class="
         font-sans
         antialiased
-        bg-[#0a0a0a]
-        text-white/75
+        bg-[var(--color-bg)]
+        text-[var(--color-text-secondary)]
         selection:bg-rust
         selection:text-white
         text-base
     "
 >
 
-<div class="min-h-screen flex flex-col bg-[#0a0a0a]">
+<div class="min-h-screen flex flex-col bg-[var(--color-bg)]">
 
     <header
         class="
@@ -449,7 +520,7 @@
             top-0
             z-50
             relative
-            bg-[#0a0a0a]/95
+            bg-[var(--color-bg)]/95
             backdrop-blur-md
             border-b
             border-rust/10
@@ -479,7 +550,7 @@
                         sm:text-3xl
                         font-bold
                         tracking-tight
-                        text-white
+                        text-[var(--color-text-primary)]
                         hover:text-rust
                         transition-all
                         duration-300
@@ -506,8 +577,8 @@
                     <span
                         class="
                             bg-gradient-to-r
-                            from-white
-                            via-white
+                            from-[var(--color-text-primary)]
+                            via-[var(--color-text-primary)]
                             to-rust
                             bg-clip-text
                             group-hover:text-transparent
@@ -557,18 +628,18 @@
                                 pl-9
                                 pr-8
                                 rounded-full
-                                bg-[#121212]
+                                bg-[var(--color-bg-card)]
                                 border
-                                border-white/5
-                                text-white
-                                placeholder:text-white/30
+                                border-[var(--color-border)]
+                                text-[var(--color-text-primary)]
+                                placeholder:text-[var(--color-text-muted)]
                                 text-base
                                 sm:text-sm
                                 focus:outline-none
                                 focus:border-rust
                                 focus:ring-1
                                 focus:ring-rust/30
-                                group-hover:border-white/5
+                                group-hover:border-[var(--color-border)]
                                 transition-all
                                 duration-300
                             "
@@ -582,7 +653,7 @@
                                 -translate-y-1/2
                                 w-4
                                 h-4
-                                text-white/30
+                                text-[var(--color-text-muted)]
                                 group-focus-within:text-rust
                                 transition-colors
                             "
@@ -613,9 +684,9 @@
                             empty:hidden
                             max-h-80
                             overflow-y-auto
-                            bg-[#121212]
+                            bg-[var(--color-bg-card)]
                             border
-                            border-white/5
+                            border-[var(--color-border)]
                             rounded-2xl
                             shadow-2xl
                             p-2
@@ -644,7 +715,7 @@
                             transition-all
                             duration-300
                             group
-                            text-white/75 hover:text-white
+                            text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]
                         "
                     >
                         <span>Home</span>
@@ -674,7 +745,7 @@
                                 gap-1.5
                                 transition-all
                                 duration-300
-                                text-white/75 hover:text-white
+                                text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]
                             "
                         >
 
@@ -717,9 +788,9 @@
 
                             <div
                                 class="
-                                    bg-[#121212]
+                                    bg-[var(--color-bg-card)]
                                     border
-                                    border-white/5
+                                    border-[var(--color-border)]
                                     rounded-xl
                                     shadow-xl
                                     shadow-black/50
@@ -735,9 +806,9 @@
                                             px-4
                                             py-2.5
                                             text-sm
-                                            text-white/75
+                                            text-[var(--color-text-secondary)]
                                             hover:text-rust
-                                            hover:bg-white/5
+                                            hover:bg-[var(--color-bg)]
                                             rounded-lg
                                             transition-colors
                                         "
@@ -753,9 +824,9 @@
                                             px-4
                                             py-2.5
                                             text-sm
-                                            text-white/75
+                                            text-[var(--color-text-secondary)]
                                             hover:text-rust
-                                            hover:bg-white/5
+                                            hover:bg-[var(--color-bg)]
                                             rounded-lg
                                             transition-colors
                                         "
@@ -771,9 +842,9 @@
                                             px-4
                                             py-2.5
                                             text-sm
-                                            text-white/75
+                                            text-[var(--color-text-secondary)]
                                             hover:text-rust
-                                            hover:bg-white/5
+                                            hover:bg-[var(--color-bg)]
                                             rounded-lg
                                             transition-colors
                                         "
@@ -789,9 +860,9 @@
                                             px-4
                                             py-2.5
                                             text-sm
-                                            text-white/75
+                                            text-[var(--color-text-secondary)]
                                             hover:text-rust
-                                            hover:bg-white/5
+                                            hover:bg-[var(--color-bg)]
                                             rounded-lg
                                             transition-colors
                                         "
@@ -807,9 +878,9 @@
                                             px-4
                                             py-2.5
                                             text-sm
-                                            text-white/75
+                                            text-[var(--color-text-secondary)]
                                             hover:text-rust
-                                            hover:bg-white/5
+                                            hover:bg-[var(--color-bg)]
                                             rounded-lg
                                             transition-colors
                                         "
@@ -825,9 +896,9 @@
                                             px-4
                                             py-2.5
                                             text-sm
-                                            text-white/75
+                                            text-[var(--color-text-secondary)]
                                             hover:text-rust
-                                            hover:bg-white/5
+                                            hover:bg-[var(--color-bg)]
                                             rounded-lg
                                             transition-colors
                                         "
@@ -836,7 +907,7 @@
                                     </a>
 
                                 
-                                <div class="border-t border-white/5 my-1"></div>
+                                <div class="border-t border-[var(--color-border)] my-1"></div>
 
                                 <a
                                     href="http://localhost/categories"
@@ -848,7 +919,7 @@
                                         font-semibold
                                         text-rust
                                         hover:text-rust/80
-                                        hover:bg-white/5
+                                        hover:bg-[var(--color-bg)]
                                         rounded-lg
                                     "
                                 >
@@ -869,7 +940,7 @@
                             transition-all
                             duration-300
                             group
-                            text-white/75 hover:text-white
+                            text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]
                         "
                     >
 
@@ -890,6 +961,51 @@
 
                     </a>
 
+                    {{-- Theme Toggle --}}
+                    <button
+                        onclick="toggleTheme()"
+                        class="
+                            theme-toggle
+                            flex items-center gap-1.5
+                            px-3 py-1.5
+                            rounded-full
+                            bg-[var(--color-bg-card)]
+                            border
+                            border-[var(--color-border)]
+                            text-[var(--color-text-secondary)]
+                            hover:text-rust
+                            hover:border-rust/40
+                            transition-all
+                            duration-300
+                            text-sm
+                            font-medium
+                        "
+                        aria-label="Toggle theme"
+                    >
+
+                        <svg
+                            id="theme-icon"
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646
+                                   9.003 9.003 0 0012 21
+                                   a9.003 9.003 0 008.354-5.646z"
+                            />
+
+                        </svg>
+
+                        <span id="theme-label">Dark</span>
+
+                    </button>
+
                     
                         <div class="flex items-center gap-3">
 
@@ -897,8 +1013,8 @@
                                 href="http://localhost/login"
                                 class="
                                     text-sm
-                                    text-white/75
-                                    hover:text-white
+                                    text-[var(--color-text-secondary)]
+                                    hover:text-[var(--color-text-primary)]
                                     font-medium
                                     transition-colors
                                 "
@@ -943,10 +1059,10 @@
                         shrink-0
                         p-2.5
                         rounded-xl
-                        text-white/75
-                        bg-[#121212]
+                        text-[var(--color-text-secondary)]
+                        bg-[var(--color-bg-card)]
                         border
-                        border-white/5
+                        border-[var(--color-border)]
                         hover:text-rust
                         hover:border-rust/40
                         transition-all
@@ -1002,9 +1118,9 @@
                 w-64
                 max-w-[calc(100vw-2rem)]
                 mt-2
-                bg-[#121212]
+                bg-[var(--color-bg-card)]
                 border
-                border-white/5
+                border-[var(--color-border)]
                 rounded-2xl
                 shadow-2xl
                 shadow-black/60
@@ -1028,7 +1144,7 @@
                             font-medium
                             transition-all
                             duration-200
-                            text-white/75 hover:text-white hover:bg-white/5
+                            text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg)]
                         "
                     >
                         Home
@@ -1046,7 +1162,7 @@
                             font-medium
                             transition-all
                             duration-200
-                            text-white/75 hover:text-white hover:bg-white/5
+                            text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg)]
                         "
                     >
                         Categories
@@ -1064,7 +1180,7 @@
                             font-medium
                             transition-all
                             duration-200
-                            text-white/75 hover:text-white hover:bg-white/5
+                            text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg)]
                         "
                     >
                         About
@@ -1073,8 +1189,39 @@
                 
             </div>
 
+            <div class="border-t border-[var(--color-border)] my-2"></div>
+
+            <div class="space-y-2">
+                <button
+                    onclick="toggleTheme()"
+                    class="
+                        w-full
+                        flex
+                        items-center
+                        justify-center
+                        gap-2
+                        px-3
+                        py-3
+                        rounded-xl
+                        text-sm
+                        font-medium
+                        text-[var(--color-text-secondary)]
+                        border
+                        border-[var(--color-border)]
+                        hover:border-rust/40
+                        hover:text-[var(--color-text-primary)]
+                        transition-all
+                    "
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                    <span id="mobile-theme-label">Dark</span>
+                </button>
+            </div>
+
             
-                <div class="border-t border-white/5 my-2"></div>
+                <div class="border-t border-[var(--color-border)] my-2"></div>
 
                 <div class="grid grid-cols-2 gap-2">
 
@@ -1089,11 +1236,11 @@
                             rounded-xl
                             text-sm
                             font-medium
-                            text-white/75
+                            text-[var(--color-text-secondary)]
                             border
-                            border-white/5
+                            border-[var(--color-border)]
                             hover:border-rust/40
-                            hover:text-white
+                            hover:text-[var(--color-text-primary)]
                             transition-all
                         "
                     >
@@ -1132,13 +1279,13 @@
 
     </header>
 
-    <main class="flex-1 w-full bg-[#0a0a0a]">
+    <main class="flex-1 w-full bg-[var(--color-bg)]">
 
         
 
 
     
-    <section class="bg-[#0a0a0a] text-white py-12 md:py-16 relative overflow-hidden">
+    <section class="bg-[var(--color-bg)] text-[var(--color-text-primary)] py-12 md:py-16 relative overflow-hidden">
 
         <div class="absolute top-0 right-0 w-1/3 h-full bg-rust/10 blur-3xl"></div>
         <div class="absolute bottom-0 left-0 w-1/4 h-1/3 bg-rust/5 blur-2xl"></div>
@@ -1157,39 +1304,39 @@
                                 
                                 <div class="order-2 lg:order-1">
 
-                                    <h2 class="heading-font text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 tracking-tight text-white">
+                                    <h2 class="heading-font text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 tracking-tight text-[var(--color-text-primary)]">
                                         eg
                                     </h2>
 
-                                    <p class="text-white/60 text-base md:text-lg max-w-2xl mb-6 leading-relaxed">
+                                    <p class="text-[var(--color-text-muted)] text-base md:text-lg max-w-2xl mb-6 leading-relaxed">
                                         start anyway
                                     </p>
 
-                                    <div class="flex flex-wrap items-center gap-4 text-sm text-white/40">
+                                    <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-muted)]">
 
                                         
                                         <div class="flex items-center gap-2">
                                                                                             <span class="w-8 h-8 rounded-full bg-rust/20 flex items-center justify-center text-xs font-bold text-rust heading-font">
                                                     A
                                                 </span>
-                                                                                        <span class="text-white/60">
+                                                                                        <span class="text-[var(--color-text-secondary)]">
                                                 Author User
                                             </span>
                                         </div>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
-                                        <span class="text-white/40">
+                                        <span class="text-[var(--color-text-muted)]">
                                             Design &amp; UX
                                         </span>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
                                         <span>
                                                                                             Aug 31, 2026
                                                                                     </span>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
                                         <span>
                                             1 min read
@@ -1250,39 +1397,39 @@
                                 
                                 <div class="order-2 lg:order-1">
 
-                                    <h2 class="heading-font text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 tracking-tight text-white">
+                                    <h2 class="heading-font text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 tracking-tight text-[var(--color-text-primary)]">
                                         Cyber Threats
                                     </h2>
 
-                                    <p class="text-white/60 text-base md:text-lg max-w-2xl mb-6 leading-relaxed">
+                                    <p class="text-[var(--color-text-muted)] text-base md:text-lg max-w-2xl mb-6 leading-relaxed">
                                         A cyber threat is any malicious action or event designed to gain unauthorized access, steal data, damage systems, or disrupt digital operations. These threats o...
                                     </p>
 
-                                    <div class="flex flex-wrap items-center gap-4 text-sm text-white/40">
+                                    <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-muted)]">
 
                                         
                                         <div class="flex items-center gap-2">
                                                                                             <span class="w-8 h-8 rounded-full bg-rust/20 flex items-center justify-center text-xs font-bold text-rust heading-font">
                                                     A
                                                 </span>
-                                                                                        <span class="text-white/60">
+                                                                                        <span class="text-[var(--color-text-secondary)]">
                                                 Unknown
                                             </span>
                                         </div>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
-                                        <span class="text-white/40">
+                                        <span class="text-[var(--color-text-muted)]">
                                             Cyber Security
                                         </span>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
                                         <span>
                                                                                             Aug 21, 2026
                                                                                     </span>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
                                         <span>
                                             1 min read
@@ -1343,39 +1490,39 @@
                                 
                                 <div class="order-2 lg:order-1">
 
-                                    <h2 class="heading-font text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 tracking-tight text-white">
+                                    <h2 class="heading-font text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 tracking-tight text-[var(--color-text-primary)]">
                                         Blog Image
                                     </h2>
 
-                                    <p class="text-white/60 text-base md:text-lg max-w-2xl mb-6 leading-relaxed">
+                                    <p class="text-[var(--color-text-muted)] text-base md:text-lg max-w-2xl mb-6 leading-relaxed">
                                         Ready to turn your passion into profit? ☀️As a seasoned blogger, I&#039;ve seen firsthand the incredible opportunities that come with building your own platform. 💼...
                                     </p>
 
-                                    <div class="flex flex-wrap items-center gap-4 text-sm text-white/40">
+                                    <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-muted)]">
 
                                         
                                         <div class="flex items-center gap-2">
                                                                                             <span class="w-8 h-8 rounded-full bg-rust/20 flex items-center justify-center text-xs font-bold text-rust heading-font">
                                                     A
                                                 </span>
-                                                                                        <span class="text-white/60">
+                                                                                        <span class="text-[var(--color-text-secondary)]">
                                                 Unknown
                                             </span>
                                         </div>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
-                                        <span class="text-white/40">
+                                        <span class="text-[var(--color-text-muted)]">
                                             Design &amp; UX
                                         </span>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
                                         <span>
                                                                                             Aug 27, 2026
                                                                                     </span>
 
-                                        <span class="hidden sm:inline text-white/20">·</span>
+                                        <span class="hidden sm:inline text-[var(--color-text-muted)]">·</span>
 
                                         <span>
                                             1 min read
@@ -1443,14 +1590,14 @@
 
                     
                         <button
-                            class="featured-dot w-2.5 h-2.5 rounded-full transition-all duration-300 bg-white/20 hover:bg-white/40"
+                            class="featured-dot w-2.5 h-2.5 rounded-full transition-all duration-300 bg-[var(--color-border)] hover:bg-rust/40"
                             data-index="1"
                             aria-label="Go to slide 2">
                         </button>
 
                     
                         <button
-                            class="featured-dot w-2.5 h-2.5 rounded-full transition-all duration-300 bg-white/20 hover:bg-white/40"
+                            class="featured-dot w-2.5 h-2.5 rounded-full transition-all duration-300 bg-[var(--color-border)] hover:bg-rust/40"
                             data-index="2"
                             aria-label="Go to slide 3">
                         </button>
@@ -1468,14 +1615,14 @@
 
 
 
-<section id="posts" class="bg-[#0a0a0a] py-12">
+<section id="posts" class="bg-[var(--color-bg)] py-12">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         
         <div class="flex items-center justify-between mb-8">
 
-            <h2 class="heading-font text-2xl font-bold text-white tracking-tight">
+            <h2 class="heading-font text-2xl font-bold text-[var(--color-text-primary)] tracking-tight">
 
                 
                     Recent blog posts
@@ -1483,7 +1630,7 @@
                 
             </h2>
 
-            <span class="text-sm text-white/20">
+            <span class="text-sm text-[var(--color-text-muted)]">
                 34
                 entries
             </span>
@@ -1508,7 +1655,7 @@
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -1548,7 +1695,7 @@
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/blog-post-6a86b02ae4f1b"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Blog Post
 
@@ -1559,7 +1706,7 @@
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Here’s a crazy stat: 90% of the world’s data was created in the last two years.
 
@@ -1570,7 +1717,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -1579,13 +1726,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     Aug 20, 2026
                                                             </span>
 
@@ -1599,7 +1746,7 @@ Impressive to thi...
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -1639,7 +1786,7 @@ Impressive to thi...
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/quod-officia-eius-facilis-quia-maxime"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Quod officia eius facilis quia maxime
 
@@ -1650,7 +1797,7 @@ Impressive to thi...
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Nobis beatae ratione a fugiat suscipit voluptas totam nostrum. Nulla id provident autem eos sapiente...
 
@@ -1659,7 +1806,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -1668,13 +1815,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     Aug 20, 2026
                                                             </span>
 
@@ -1688,7 +1835,7 @@ Impressive to thi...
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -1728,7 +1875,7 @@ Impressive to thi...
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/aut-minus-eos-iste-voluptas"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Aut minus eos iste voluptas
 
@@ -1739,7 +1886,7 @@ Impressive to thi...
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Suscipit id suscipit asperiores velit. Omnis velit voluptates ipsum voluptatem blanditiis et vel....
 
@@ -1748,7 +1895,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -1757,13 +1904,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     Aug 21, 2026
                                                             </span>
 
@@ -1777,7 +1924,7 @@ Impressive to thi...
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -1817,7 +1964,7 @@ Impressive to thi...
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/quia-hic-ut-dicta-quibusdam-nisi-omnis"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Quia hic ut dicta quibusdam nisi omnis
 
@@ -1828,7 +1975,7 @@ Impressive to thi...
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Error vero veniam recusandae fugiat distinctio omnis aliquid quis. Doloremque maiores ut quas nisi i...
 
@@ -1837,7 +1984,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -1846,13 +1993,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     May 28, 2026
                                                             </span>
 
@@ -1866,7 +2013,7 @@ Impressive to thi...
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -1906,7 +2053,7 @@ Impressive to thi...
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/nihil-labore-autem-nihil-perspiciatis-ea-temporibus-dignissimos"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Nihil labore autem nihil perspiciatis ea temporibus dignissimos
 
@@ -1917,7 +2064,7 @@ Impressive to thi...
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Et cum aliquam et perspiciatis enim perspiciatis. Ullam eius nam ut assumenda dolor quia unde. Qui s...
 
@@ -1926,7 +2073,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -1935,13 +2082,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     Aug 21, 2026
                                                             </span>
 
@@ -1955,7 +2102,7 @@ Impressive to thi...
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -1995,7 +2142,7 @@ Impressive to thi...
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/et-sequi-laudantium-qui-ducimus-tempora"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Et sequi laudantium qui ducimus tempora
 
@@ -2006,7 +2153,7 @@ Impressive to thi...
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Aspernatur asperiores earum qui perferendis sint quisquam. Occaecati ipsum fuga aliquid necessitatib...
 
@@ -2015,7 +2162,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -2024,13 +2171,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     Jul 25, 2026
                                                             </span>
 
@@ -2044,7 +2191,7 @@ Impressive to thi...
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -2084,7 +2231,7 @@ Impressive to thi...
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/omnis-iusto-eum-et-dicta"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Omnis iusto eum et dicta
 
@@ -2095,7 +2242,7 @@ Impressive to thi...
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Ea illum repellat est dolore est dolores. Vel adipisci fuga labore sapiente suscipit et cumque. Maxi...
 
@@ -2104,7 +2251,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -2113,13 +2260,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     Jun 9, 2026
                                                             </span>
 
@@ -2133,7 +2280,7 @@ Impressive to thi...
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -2173,7 +2320,7 @@ Impressive to thi...
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/ab-qui-debitis-molestiae-aliquam-doloribus"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Ab qui debitis molestiae aliquam doloribus
 
@@ -2184,7 +2331,7 @@ Impressive to thi...
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Animi dolores animi eveniet est et quis. Non incidunt qui autem et. Qui incidunt provident debitis p...
 
@@ -2193,7 +2340,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -2202,13 +2349,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     Aug 23, 2026
                                                             </span>
 
@@ -2222,7 +2369,7 @@ Impressive to thi...
                 
 
                 
-                <article class="group bg-[#121212] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-white/5 hover:border-rust/30 hover:-translate-y-2">
+                <article class="group bg-[var(--color-bg-card)] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--color-border)] hover:border-rust/30 hover:-translate-y-2">
 
                     
 
@@ -2262,7 +2409,7 @@ Impressive to thi...
                         <h3 class="heading-font text-lg font-semibold tracking-tight mb-2">
 
                             <a href="http://localhost/blog/et-magni-voluptas-repudiandae"
-                               class="text-white hover:text-rust transition-colors duration-300 line-clamp-2">
+                               class="text-[var(--color-text-primary)] hover:text-rust transition-colors duration-300 line-clamp-2">
 
                                 Et magni voluptas repudiandae
 
@@ -2273,7 +2420,7 @@ Impressive to thi...
 
                         
 
-                        <p class="text-white/40 text-sm leading-relaxed line-clamp-2 mb-4">
+                        <p class="text-[var(--color-text-muted)] text-sm leading-relaxed line-clamp-2 mb-4">
 
                             Accusantium voluptas ad incidunt dolorum molestiae minima vero. Eum voluptas libero et est modi. Vol...
 
@@ -2282,7 +2429,7 @@ Impressive to thi...
 
                         
 
-                        <div class="flex items-center justify-between text-xs text-white/20">
+                        <div class="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
 
                             <div class="flex items-center gap-2">
 
@@ -2291,13 +2438,13 @@ Impressive to thi...
                                         A
                                     </span>
                                 
-                                <span class="text-white/30">
+                                <span class="text-[var(--color-text-secondary)]">
                                     Unknown
                                 </span>
 
                             </div>
 
-                            <span class="text-white/20">
+                            <span class="text-[var(--color-text-muted)]">
                                                                     Mar 7, 2026
                                                             </span>
 
@@ -2314,28 +2461,28 @@ Impressive to thi...
         
 
         
-            <div class="mt-12 pt-6 border-t border-white/5">
+            <div class="mt-12 pt-6 border-t border-[var(--color-border)]">
 
                 <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-between">
         <div class="flex justify-between flex-1 sm:hidden">
-                            <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-white/20 bg-[#121212] border border-white/5 cursor-default leading-5 rounded-xl">
+                            <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-[var(--color-text-muted)] bg-[var(--color-bg-card)] border border-[var(--color-border)] cursor-default leading-5 rounded-xl">
                     &laquo; Previous
                 </span>
             
-                            <a href="http://localhost?page=2" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-white/60 bg-[#121212] border border-white/5 leading-5 rounded-xl hover:bg-rust/10 hover:text-rust hover:border-rust/30 transition-all duration-300">
+                            <a href="http://localhost?page=2" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] border border-[var(--color-border)] leading-5 rounded-xl hover:bg-rust/10 hover:text-rust hover:border-rust/30 transition-all duration-300">
                     Next &raquo;
                 </a>
                     </div>
 
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
-                <p class="text-sm text-white/40 leading-5">
+                <p class="text-sm text-[var(--color-text-muted)] leading-5">
                     Showing
-                                            <span class="font-medium text-white/60">1</span>
+                                            <span class="font-medium text-[var(--color-text-secondary)]">1</span>
                         to
-                        <span class="font-medium text-white/60">12</span>
+                        <span class="font-medium text-[var(--color-text-secondary)]">12</span>
                                         of
-                    <span class="font-medium text-white/60">34</span>
+                    <span class="font-medium text-[var(--color-text-secondary)]">34</span>
                     results
                 </p>
             </div>
@@ -2344,7 +2491,7 @@ Impressive to thi...
                 <span class="relative z-0 inline-flex rtl:flex-row-reverse shadow-sm rounded-xl overflow-hidden">
                     
                                             <span aria-disabled="true" aria-label="&amp;laquo; Previous">
-                            <span class="relative inline-flex items-center px-3 py-2 text-sm font-medium text-white/20 bg-[#121212] border border-white/5 cursor-default rounded-l-xl leading-5" aria-hidden="true">
+                            <span class="relative inline-flex items-center px-3 py-2 text-sm font-medium text-[var(--color-text-muted)] bg-[var(--color-bg-card)] border border-[var(--color-border)] cursor-default rounded-l-xl leading-5" aria-hidden="true">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </svg>
@@ -2360,15 +2507,15 @@ Impressive to thi...
                                             1
                                         </span>
                                     </span>
-                                                                                                                                <a href="http://localhost?page=2" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-white/60 bg-[#121212] border border-white/5 leading-5 hover:bg-rust/10 hover:text-rust hover:border-rust/30 transition-all duration-300" aria-label="Go to page 2">
+                                                                                                                                <a href="http://localhost?page=2" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] border border-[var(--color-border)] leading-5 hover:bg-rust/10 hover:text-rust hover:border-rust/30 transition-all duration-300" aria-label="Go to page 2">
                                         2
                                     </a>
-                                                                                                                                <a href="http://localhost?page=3" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-white/60 bg-[#121212] border border-white/5 leading-5 hover:bg-rust/10 hover:text-rust hover:border-rust/30 transition-all duration-300" aria-label="Go to page 3">
+                                                                                                                                <a href="http://localhost?page=3" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] border border-[var(--color-border)] leading-5 hover:bg-rust/10 hover:text-rust hover:border-rust/30 transition-all duration-300" aria-label="Go to page 3">
                                         3
                                     </a>
                                                                                                         
                     
-                                            <a href="http://localhost?page=2" rel="next" class="relative inline-flex items-center px-3 py-2 -ml-px text-sm font-medium text-white/60 bg-[#121212] border border-white/5 rounded-r-xl leading-5 hover:bg-rust/10 hover:text-rust hover:border-rust/30 transition-all duration-300" aria-label="Next &amp;raquo;">
+                                            <a href="http://localhost?page=2" rel="next" class="relative inline-flex items-center px-3 py-2 -ml-px text-sm font-medium text-[var(--color-text-secondary)] bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-r-xl leading-5 hover:bg-rust/10 hover:text-rust hover:border-rust/30 transition-all duration-300" aria-label="Next &amp;raquo;">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                             </svg>
@@ -2391,10 +2538,10 @@ Impressive to thi...
 
     <footer
         class="
-            bg-[#121212]
-            text-white/75
+            bg-[var(--color-bg-card)]
+            text-[var(--color-text-secondary)]
             border-t
-            border-rust/10
+            border-[var(--color-border)]
             relative
             overflow-hidden
         "
@@ -2456,7 +2603,7 @@ Impressive to thi...
                             text-2xl
                             sm:text-3xl
                             font-bold
-                            text-white
+                            text-[var(--color-text-primary)]
                             hover:text-rust
                             transition-colors
                             duration-300
@@ -2483,7 +2630,7 @@ Impressive to thi...
 
                     <p
                         class="
-                            text-white/50
+                            text-[var(--color-text-muted)]
                             max-w-sm
                             text-base
                             leading-relaxed
@@ -2523,7 +2670,7 @@ Impressive to thi...
 
                             <a
                                 href="http://localhost/posts"
-                                class="text-white/50 hover:text-rust transition-colors"
+                                class="text-[var(--color-text-muted)] hover:text-rust transition-colors"
                             >
                                 All Posts
                             </a>
@@ -2534,7 +2681,7 @@ Impressive to thi...
 
                             <a
                                 href="http://localhost/categories"
-                                class="text-white/50 hover:text-rust transition-colors"
+                                class="text-[var(--color-text-muted)] hover:text-rust transition-colors"
                             >
                                 Categories
                             </a>
@@ -2545,7 +2692,7 @@ Impressive to thi...
 
                             <a
                                 href="http://localhost/about"
-                                class="text-white/50 hover:text-rust transition-colors"
+                                class="text-[var(--color-text-muted)] hover:text-rust transition-colors"
                             >
                                 About
                             </a>
@@ -2586,7 +2733,7 @@ Impressive to thi...
                                 <a
                                     href="http://localhost/category/career-advice"
                                     class="
-                                        text-white/50
+                                        text-[var(--color-text-muted)]
                                         hover:text-rust
                                         transition-colors
                                         block
@@ -2603,7 +2750,7 @@ Impressive to thi...
                                 <a
                                     href="http://localhost/category/cyber-security"
                                     class="
-                                        text-white/50
+                                        text-[var(--color-text-muted)]
                                         hover:text-rust
                                         transition-colors
                                         block
@@ -2620,7 +2767,7 @@ Impressive to thi...
                                 <a
                                     href="http://localhost/category/design-ux"
                                     class="
-                                        text-white/50
+                                        text-[var(--color-text-muted)]
                                         hover:text-rust
                                         transition-colors
                                         block
@@ -2637,7 +2784,7 @@ Impressive to thi...
                                 <a
                                     href="http://localhost/category/devops-deployment"
                                     class="
-                                        text-white/50
+                                        text-[var(--color-text-muted)]
                                         hover:text-rust
                                         transition-colors
                                         block
@@ -2654,7 +2801,7 @@ Impressive to thi...
                                 <a
                                     href="http://localhost/category/laravel-tips"
                                     class="
-                                        text-white/50
+                                        text-[var(--color-text-muted)]
                                         hover:text-rust
                                         transition-colors
                                         block
@@ -2671,7 +2818,7 @@ Impressive to thi...
                                 <a
                                     href="http://localhost/category/open-source"
                                     class="
-                                        text-white/50
+                                        text-[var(--color-text-muted)]
                                         hover:text-rust
                                         transition-colors
                                         block
@@ -2746,7 +2893,7 @@ Impressive to thi...
                         <a
                             href="#"
                             class="
-                                text-white/50
+                                text-[var(--color-text-muted)]
                                 hover:text-rust
                                 transition-colors
                             "
@@ -2757,7 +2904,7 @@ Impressive to thi...
                         <a
                             href="#"
                             class="
-                                text-white/50
+                                text-[var(--color-text-muted)]
                                 hover:text-rust
                                 transition-colors
                             "
@@ -2774,13 +2921,13 @@ Impressive to thi...
             <div
                 class="
                     border-t
-                    border-white/5
+                    border-[var(--color-border)]
                     mt-8
                     sm:mt-10
                     pt-6
                     sm:pt-8
                     text-sm
-                    text-white/30
+                    text-[var(--color-text-muted)]
                 "
             >
 
@@ -2796,6 +2943,132 @@ Impressive to thi...
     </footer>
 
 </div>
+
+{{-- =========================================================
+     THEME TOGGLE SCRIPT
+============================================================= --}}
+
+<script>
+    function toggleTheme() {
+
+        const html =
+            document.documentElement;
+
+        const currentTheme =
+            html.getAttribute('data-theme');
+
+        const newTheme =
+            currentTheme === 'dark' ?
+            'light' :
+            'dark';
+
+
+        html.setAttribute(
+            'data-theme',
+            newTheme
+        );
+
+
+        localStorage.setItem(
+            'theme',
+            newTheme
+        );
+
+
+        updateThemeUI(newTheme);
+    }
+
+
+    function updateThemeUI(theme) {
+
+        const isDark =
+            theme === 'dark';
+
+
+        const icon =
+            document.getElementById(
+                'theme-icon'
+            );
+
+        const label =
+            document.getElementById(
+                'theme-label'
+            );
+
+        const mobileLabel =
+            document.getElementById(
+                'mobile-theme-label'
+            );
+
+
+        if (icon) {
+
+            icon.innerHTML = isDark
+
+                ?
+                `
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3
+                           m15.364 6.364l-.707-.707
+                           M6.343 6.343l-.707-.707
+                           m12.728 0l-.707.707
+                           M6.343 17.657l-.707.707
+                           M16 12a4 4 0 11-8 0
+                           4 4 0 018 0z"/>
+                  `
+
+                :
+                `
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646
+                           9.003 9.003 0 0012 21
+                           a9.003 9.003 0 008.354-5.646z"/>
+                  `;
+        }
+
+
+        if (label) {
+
+            label.textContent =
+                isDark ?
+                'Light' :
+                'Dark';
+        }
+
+
+        if (mobileLabel) {
+
+            mobileLabel.textContent =
+                isDark ?
+                'Light' :
+                'Dark';
+        }
+
+    }
+
+
+    /* Update button UI after DOM loads */
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        function() {
+
+            const theme =
+                document.documentElement
+                .getAttribute('data-theme') ||
+                'light';
+
+            updateThemeUI(theme);
+
+        }
+    );
+</script>
 
 <script>
 
@@ -3019,8 +3292,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     );
 
                     dot.classList.remove(
-                        'bg-white/20',
-                        'hover:bg-white/40'
+                        'bg-[var(--color-border)]',
+                        'hover:bg-rust/40'
                     );
 
                 } else {
@@ -3031,8 +3304,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     );
 
                     dot.classList.add(
-                        'bg-white/20',
-                        'hover:bg-white/40'
+                        'bg-[var(--color-border)]',
+                        'hover:bg-rust/40'
                     );
 
                 }

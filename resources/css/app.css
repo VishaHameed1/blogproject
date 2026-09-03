@@ -1,21 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+    /* CSS Variables for theming */
+    :root {
+        /* Light Theme */
+        --color-bg: #F8F9FA;
+        --color-bg-card: #FFFFFF;
+        --color-text-primary: #111827;
+        --color-text-secondary: #6B7280;
+        --color-text-muted: #9CA3AF;
+        --color-border: #E5E7EB;
+        --color-primary: #7C3AED;
+        --color-primary-hover: #6D28D9;
+        --color-secondary: #3B82F6;
+        --color-secondary-hover: #2563EB;
+        --color-shadow: rgba(0, 0, 0, 0.08);
+        --color-shadow-hover: rgba(0, 0, 0, 0.12);
+    }
+
+    [data-theme="dark"] {
+        /* Dark Theme */
+        --color-bg: #0A0A0A;
+        --color-bg-card: #1A1A1A;
+        --color-text-primary: #FFFFFF;
+        --color-text-secondary: #A0A0A0;
+        --color-text-muted: #6B7280;
+        --color-border: #2A2A2A;
+        --color-primary: #7C3AED;
+        --color-primary-hover: #6D28D9;
+        --color-secondary: #3B82F6;
+        --color-secondary-hover: #2563EB;
+        --color-shadow: rgba(0, 0, 0, 0.3);
+        --color-shadow-hover: rgba(0, 0, 0, 0.5);
+    }
+
     /* Global Font Family Setup - Poppins for Headings, Work Sans for Body */
     body {
         font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        background-color: #0a0a0a;
-        color: rgba(255, 255, 255, 0.75);
+        background-color: var(--color-bg);
+        color: var(--color-text-secondary);
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
         letter-spacing: -0.02em;
+        color: var(--color-text-primary);
     }
 
     h1 {
@@ -31,7 +66,7 @@
     }
 
     /* Buttons, CTAs, Nav links - Friendly Poppins */
-    button, .btn, .btn-primary, .btn-rust, .nav-link, .tag, .badge-new {
+    button, .btn, .btn-primary, .btn-purple, .nav-link, .tag, .badge-new {
         font-family: 'Poppins', sans-serif;
         font-weight: 600;
     }
@@ -40,183 +75,280 @@
     input, textarea, select, .search-input {
         font-family: 'Work Sans', sans-serif;
         font-size: 16px !important;
+        background-color: var(--color-bg-card);
+        color: var(--color-text-primary);
+        border-color: var(--color-border);
     }
 
     input:focus, textarea:focus, select:focus {
         outline: none;
-        border-color: #c45a2e;
-        box-shadow: 0 0 0 3px rgba(196, 90, 46, 0.15);
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
     }
 
-    /* Rust color utilities - Using CSS variables for opacity support */
-    .bg-rust {
-        background-color: #c45a2e;
+    /* Purple color utilities - Primary color */
+    .bg-purple {
+        background-color: var(--color-primary);
     }
-    .bg-rust\/5 {
-        background-color: rgba(196, 90, 46, 0.05);
+    .bg-purple\/5 {
+        background-color: rgba(124, 58, 237, 0.05);
     }
-    .bg-rust\/10 {
-        background-color: rgba(196, 90, 46, 0.1);
+    .bg-purple\/10 {
+        background-color: rgba(124, 58, 237, 0.1);
     }
-    .bg-rust\/20 {
-        background-color: rgba(196, 90, 46, 0.2);
+    .bg-purple\/20 {
+        background-color: rgba(124, 58, 237, 0.2);
     }
-    .bg-rust\/30 {
-        background-color: rgba(196, 90, 46, 0.3);
+    .bg-purple\/30 {
+        background-color: rgba(124, 58, 237, 0.3);
     }
-    .bg-rust\/40 {
-        background-color: rgba(196, 90, 46, 0.4);
+    .bg-purple\/40 {
+        background-color: rgba(124, 58, 237, 0.4);
     }
-    .bg-rust\/50 {
-        background-color: rgba(196, 90, 46, 0.5);
+    .bg-purple\/50 {
+        background-color: rgba(124, 58, 237, 0.5);
     }
-    .bg-rust\/60 {
-        background-color: rgba(196, 90, 46, 0.6);
+    .bg-purple\/60 {
+        background-color: rgba(124, 58, 237, 0.6);
     }
-    .bg-rust\/70 {
-        background-color: rgba(196, 90, 46, 0.7);
+    .bg-purple\/70 {
+        background-color: rgba(124, 58, 237, 0.7);
     }
-    .bg-rust\/80 {
-        background-color: rgba(196, 90, 46, 0.8);
+    .bg-purple\/80 {
+        background-color: rgba(124, 58, 237, 0.8);
     }
-    .bg-rust\/90 {
-        background-color: rgba(196, 90, 46, 0.9);
-    }
-    
-    .text-rust {
-        color: #c45a2e;
-    }
-    .text-rust\/30 {
-        color: rgba(196, 90, 46, 0.3);
-    }
-    .text-rust\/50 {
-        color: rgba(196, 90, 46, 0.5);
-    }
-    .text-rust\/60 {
-        color: rgba(196, 90, 46, 0.6);
-    }
-    .text-rust\/70 {
-        color: rgba(196, 90, 46, 0.7);
-    }
-    .text-rust\/80 {
-        color: rgba(196, 90, 46, 0.8);
+    .bg-purple\/90 {
+        background-color: rgba(124, 58, 237, 0.9);
     }
     
-    .border-rust {
-        border-color: #c45a2e;
+    .text-purple {
+        color: var(--color-primary);
     }
-    .border-rust\/10 {
-        border-color: rgba(196, 90, 46, 0.1);
+    .text-purple\/30 {
+        color: rgba(124, 58, 237, 0.3);
     }
-    .border-rust\/20 {
-        border-color: rgba(196, 90, 46, 0.2);
+    .text-purple\/50 {
+        color: rgba(124, 58, 237, 0.5);
     }
-    .border-rust\/30 {
-        border-color: rgba(196, 90, 46, 0.3);
+    .text-purple\/60 {
+        color: rgba(124, 58, 237, 0.6);
     }
-    .border-rust\/40 {
-        border-color: rgba(196, 90, 46, 0.4);
+    .text-purple\/70 {
+        color: rgba(124, 58, 237, 0.7);
     }
-    .border-rust\/50 {
-        border-color: rgba(196, 90, 46, 0.5);
-    }
-    
-    .shadow-rust\/20 {
-        box-shadow: 0 4px 20px rgba(196, 90, 46, 0.2);
-    }
-    .shadow-rust\/30 {
-        box-shadow: 0 6px 25px rgba(196, 90, 46, 0.3);
-    }
-    .shadow-rust\/40 {
-        box-shadow: 0 8px 30px rgba(196, 90, 46, 0.4);
+    .text-purple\/80 {
+        color: rgba(124, 58, 237, 0.8);
     }
     
-    .hover\:shadow-rust\/20:hover {
-        box-shadow: 0 4px 20px rgba(196, 90, 46, 0.2);
+    .border-purple {
+        border-color: var(--color-primary);
     }
-    .hover\:shadow-rust\/30:hover {
-        box-shadow: 0 6px 25px rgba(196, 90, 46, 0.3);
+    .border-purple\/10 {
+        border-color: rgba(124, 58, 237, 0.1);
     }
-    .hover\:shadow-rust\/40:hover {
-        box-shadow: 0 8px 30px rgba(196, 90, 46, 0.4);
+    .border-purple\/20 {
+        border-color: rgba(124, 58, 237, 0.2);
+    }
+    .border-purple\/30 {
+        border-color: rgba(124, 58, 237, 0.3);
+    }
+    .border-purple\/40 {
+        border-color: rgba(124, 58, 237, 0.4);
+    }
+    .border-purple\/50 {
+        border-color: rgba(124, 58, 237, 0.5);
     }
     
-    .hover\:bg-rust:hover {
-        background-color: #c45a2e;
+    .shadow-purple\/20 {
+        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2);
     }
-    .hover\:bg-rust\/80:hover {
-        background-color: rgba(196, 90, 46, 0.8);
+    .shadow-purple\/30 {
+        box-shadow: 0 6px 25px rgba(124, 58, 237, 0.3);
     }
-    .hover\:bg-rust\/90:hover {
-        background-color: rgba(196, 90, 46, 0.9);
+    .shadow-purple\/40 {
+        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
     }
-    .hover\:border-rust:hover {
-        border-color: #c45a2e;
+    
+    .hover\:shadow-purple\/20:hover {
+        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2);
     }
-    .hover\:border-rust\/30:hover {
-        border-color: rgba(196, 90, 46, 0.3);
+    .hover\:shadow-purple\/30:hover {
+        box-shadow: 0 6px 25px rgba(124, 58, 237, 0.3);
     }
-    .hover\:border-rust\/50:hover {
-        border-color: rgba(196, 90, 46, 0.5);
+    .hover\:shadow-purple\/40:hover {
+        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
     }
-    .hover\:text-rust:hover {
-        color: #c45a2e;
+    
+    .hover\:bg-purple:hover {
+        background-color: var(--color-primary);
     }
-    .hover\:text-rust\/80:hover {
-        color: rgba(196, 90, 46, 0.8);
+    .hover\:bg-purple\/80:hover {
+        background-color: rgba(124, 58, 237, 0.8);
+    }
+    .hover\:bg-purple\/90:hover {
+        background-color: rgba(124, 58, 237, 0.9);
+    }
+    .hover\:border-purple:hover {
+        border-color: var(--color-primary);
+    }
+    .hover\:border-purple\/30:hover {
+        border-color: rgba(124, 58, 237, 0.3);
+    }
+    .hover\:border-purple\/50:hover {
+        border-color: rgba(124, 58, 237, 0.5);
+    }
+    .hover\:text-purple:hover {
+        color: var(--color-primary);
+    }
+    .hover\:text-purple\/80:hover {
+        color: rgba(124, 58, 237, 0.8);
     }
 
-    /* Custom decoration utilities - FIX for decoration-rust/30 error */
-    .decoration-rust {
-        text-decoration-color: #c45a2e !important;
+    /* Blue color utilities - Secondary color */
+    .bg-blue {
+        background-color: var(--color-secondary);
     }
-    .decoration-rust\/30 {
-        text-decoration-color: rgba(196, 90, 46, 0.3) !important;
+    .bg-blue\/5 {
+        background-color: rgba(59, 130, 246, 0.05);
     }
-    .decoration-rust\/50 {
-        text-decoration-color: rgba(196, 90, 46, 0.5) !important;
+    .bg-blue\/10 {
+        background-color: rgba(59, 130, 246, 0.1);
     }
-    .decoration-rust\/70 {
-        text-decoration-color: rgba(196, 90, 46, 0.7) !important;
+    .bg-blue\/20 {
+        background-color: rgba(59, 130, 246, 0.2);
+    }
+    .bg-blue\/30 {
+        background-color: rgba(59, 130, 246, 0.3);
+    }
+    .bg-blue\/40 {
+        background-color: rgba(59, 130, 246, 0.4);
+    }
+    .bg-blue\/50 {
+        background-color: rgba(59, 130, 246, 0.5);
+    }
+    .bg-blue\/60 {
+        background-color: rgba(59, 130, 246, 0.6);
+    }
+    .bg-blue\/70 {
+        background-color: rgba(59, 130, 246, 0.7);
+    }
+    .bg-blue\/80 {
+        background-color: rgba(59, 130, 246, 0.8);
+    }
+    .bg-blue\/90 {
+        background-color: rgba(59, 130, 246, 0.9);
+    }
+    
+    .text-blue {
+        color: var(--color-secondary);
+    }
+    .text-blue\/30 {
+        color: rgba(59, 130, 246, 0.3);
+    }
+    .text-blue\/50 {
+        color: rgba(59, 130, 246, 0.5);
+    }
+    .text-blue\/60 {
+        color: rgba(59, 130, 246, 0.6);
+    }
+    .text-blue\/70 {
+        color: rgba(59, 130, 246, 0.7);
+    }
+    .text-blue\/80 {
+        color: rgba(59, 130, 246, 0.8);
+    }
+    
+    .border-blue {
+        border-color: var(--color-secondary);
+    }
+    .border-blue\/10 {
+        border-color: rgba(59, 130, 246, 0.1);
+    }
+    .border-blue\/20 {
+        border-color: rgba(59, 130, 246, 0.2);
+    }
+    .border-blue\/30 {
+        border-color: rgba(59, 130, 246, 0.3);
+    }
+    .border-blue\/40 {
+        border-color: rgba(59, 130, 246, 0.4);
+    }
+    .border-blue\/50 {
+        border-color: rgba(59, 130, 246, 0.5);
+    }
+
+    /* Custom decoration utilities */
+    .decoration-purple {
+        text-decoration-color: var(--color-primary) !important;
+    }
+    .decoration-purple\/30 {
+        text-decoration-color: rgba(124, 58, 237, 0.3) !important;
+    }
+    .decoration-purple\/50 {
+        text-decoration-color: rgba(124, 58, 237, 0.5) !important;
+    }
+    .decoration-purple\/70 {
+        text-decoration-color: rgba(124, 58, 237, 0.7) !important;
     }
 
     /* Focus states */
-    .focus\:border-rust:focus {
-        border-color: #c45a2e;
+    .focus\:border-purple:focus {
+        border-color: var(--color-primary);
     }
-    .focus\:ring-rust:focus {
-        --tw-ring-color: #c45a2e;
+    .focus\:ring-purple:focus {
+        --tw-ring-color: var(--color-primary);
     }
-    .focus\:ring-rust\/30:focus {
-        --tw-ring-color: rgba(196, 90, 46, 0.3);
+    .focus\:ring-purple\/30:focus {
+        --tw-ring-color: rgba(124, 58, 237, 0.3);
     }
 
     /* Group hover states */
-    .group-hover\:text-rust:hover {
-        color: #c45a2e;
+    .group-hover\:text-purple:hover {
+        color: var(--color-primary);
     }
-    .group-hover\:border-rust:hover {
-        border-color: #c45a2e;
+    .group-hover\:border-purple:hover {
+        border-color: var(--color-primary);
     }
 
-    /* Dark theme backgrounds */
+    /* Theme backgrounds */
+    .bg-bg-light {
+        background-color: var(--color-bg);
+    }
+    .bg-bg-card {
+        background-color: var(--color-bg-card);
+    }
     .bg-charcoal-950 {
-        background-color: #0a0a0a;
+        background-color: #0A0A0A;
     }
     .bg-charcoal-900 {
         background-color: #121212;
     }
     .bg-charcoal-800 {
-        background-color: #1a1a1a;
+        background-color: #1A1A1A;
     }
     .bg-\[\#0a0a0a\] {
-        background-color: #0a0a0a;
+        background-color: #0A0A0A;
     }
     .bg-\[\#121212\] {
         background-color: #121212;
     }
+    .bg-\[\#F8F9FA\] {
+        background-color: #F8F9FA;
+    }
+    .bg-\[\#FFFFFF\] {
+        background-color: #FFFFFF;
+    }
 
-    /* Text colors - muted white variants */
+    /* Text colors */
+    .text-primary {
+        color: var(--color-text-primary);
+    }
+    .text-secondary {
+        color: var(--color-text-secondary);
+    }
+    .text-muted {
+        color: var(--color-text-muted);
+    }
     .text-white\/75 {
         color: rgba(255, 255, 255, 0.75);
     }
@@ -236,7 +368,10 @@
         color: rgba(255, 255, 255, 0.20);
     }
 
-    /* Border colors - white variants */
+    /* Border colors */
+    .border-border {
+        border-color: var(--color-border);
+    }
     .border-white\/5 {
         border-color: rgba(255, 255, 255, 0.05);
     }
@@ -244,33 +379,33 @@
         border-color: rgba(255, 255, 255, 0.10);
     }
 
-    /* Custom scrollbar - Dark Theme */
+    /* Custom scrollbar */
     ::-webkit-scrollbar {
         width: 8px;
     }
 
     ::-webkit-scrollbar-track {
-        background: #0a0a0a;
+        background: var(--color-bg);
     }
 
     ::-webkit-scrollbar-thumb {
-        background: #c45a2e;
+        background: var(--color-primary);
         border-radius: 4px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: #d4783e;
+        background: var(--color-primary-hover);
     }
 
     /* Selection color */
     ::selection {
-        background: rgba(196, 90, 46, 0.3);
+        background: rgba(124, 58, 237, 0.3);
         color: white;
     }
 
-    /* Base prose styles for blog content - Updated with Poppins + Work Sans */
+    /* Base prose styles for blog content */
     .prose-custom {
-        @apply text-ink/80 leading-relaxed text-[16px];
+        @apply text-secondary/80 leading-relaxed text-[16px];
     }
     
     .prose-custom p {
@@ -279,22 +414,22 @@
     }
     
     .prose-custom h2 {
-        @apply font-bold text-[36px] leading-[1.2] text-ink mt-8 mb-4;
+        @apply font-bold text-[36px] leading-[1.2] text-primary mt-8 mb-4;
         font-family: 'Poppins', sans-serif;
     }
     
     .prose-custom h3 {
-        @apply font-bold text-[28px] leading-[1.2] text-ink mt-6 mb-3;
+        @apply font-bold text-[28px] leading-[1.2] text-primary mt-6 mb-3;
         font-family: 'Poppins', sans-serif;
     }
     
     .prose-custom h4 {
-        @apply font-bold text-[22px] leading-[1.2] text-ink mt-4 mb-2;
+        @apply font-bold text-[22px] leading-[1.2] text-primary mt-4 mb-2;
         font-family: 'Poppins', sans-serif;
     }
     
     .prose-custom blockquote {
-        @apply border-l-4 border-rust/30 pl-4 py-1 my-6 italic text-ink/60;
+        @apply border-l-4 border-purple/30 pl-4 py-1 my-6 italic text-secondary/60;
         font-family: 'Work Sans', sans-serif;
     }
     
@@ -313,18 +448,17 @@
     }
     
     .prose-custom code {
-        @apply bg-rust/10 px-1.5 py-0.5 rounded text-sm text-rust;
+        @apply bg-purple/10 px-1.5 py-0.5 rounded text-sm text-purple;
         font-family: 'Work Sans', monospace;
     }
     
     .prose-custom pre {
-        @apply bg-rust/5 p-4 rounded-xl my-6 overflow-x-auto;
+        @apply bg-purple/5 p-4 rounded-xl my-6 overflow-x-auto;
         font-family: 'Work Sans', monospace;
     }
     
-    /* FIXED: Using decoration-rust custom class instead of decoration-rust/30 */
     .prose-custom a {
-        @apply text-rust underline decoration-rust underline-offset-2 hover:text-ink transition-colors;
+        @apply text-purple underline decoration-purple underline-offset-2 hover:text-primary transition-colors;
         font-family: 'Work Sans', sans-serif;
     }
     
@@ -334,70 +468,87 @@
 }
 
 @layer components {
-    /* Category tags using rust color scheme */
+    /* Category tags using purple color scheme */
     .tag {
-        @apply bg-rust/10 px-3 py-1 rounded-full text-xs font-medium text-ink/80 hover:bg-rust/20 transition-colors;
+        @apply bg-purple/10 px-3 py-1 rounded-full text-xs font-medium text-secondary hover:bg-purple/20 transition-colors;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .tag-purple {
+        @apply bg-purple text-white px-3 py-1 rounded-full text-xs font-medium hover:bg-purple/80 transition-colors;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .tag-blue {
+        @apply bg-blue text-white px-3 py-1 rounded-full text-xs font-medium hover:bg-blue/80 transition-colors;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .tag-outline {
+        @apply bg-transparent border border-border text-secondary px-3 py-1 rounded-full text-xs font-medium hover:border-purple hover:text-purple transition-colors;
         font-family: 'Poppins', sans-serif;
     }
     
     /* New badge */
     .badge-new {
-        @apply bg-rust/20 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider text-rust;
+        @apply bg-purple/20 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider text-purple;
         font-family: 'Poppins', sans-serif;
     }
     
     /* Featured card hover effect */
     .featured-card {
-        @apply bg-white p-6 rounded-2xl transition-all duration-200;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+        @apply bg-bg-card p-6 rounded-2xl transition-all duration-200 border border-border;
+        box-shadow: 0 2px 8px var(--color-shadow);
     }
     
     .featured-card:hover {
-        box-shadow: 0 12px 32px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.02);
-        @apply -translate-y-1;
+        box-shadow: 0 12px 32px var(--color-shadow-hover);
+        @apply -translate-y-1 border-purple/30;
     }
     
     /* Post item */
     .post-item {
-        @apply border-b border-rust/10 pb-8 last:border-0 last:pb-0;
+        @apply border-b border-border pb-8 last:border-0 last:pb-0;
     }
 
-    /* Primary button - Rust */
+    /* Primary button - Purple */
     .btn-primary {
-        @apply bg-rust text-white px-5 py-2 rounded-full hover:bg-rust/80 transition-colors shadow-lg shadow-rust/20 hover:shadow-rust/40 transform hover:scale-105 font-medium;
+        @apply bg-purple text-white px-5 py-2 rounded-full hover:bg-purple/80 transition-colors shadow-lg shadow-purple/20 hover:shadow-purple/40 transform hover:scale-105 font-medium;
         font-family: 'Poppins', sans-serif;
     }
 
     /* Search input */
     .search-input {
-        @apply flex-1 min-w-[200px] px-4 py-2.5 rounded-full border border-rust/20 bg-white focus:outline-none focus:border-rust focus:ring-2 focus:ring-rust/20 transition-all text-ink;
+        @apply flex-1 min-w-[200px] px-4 py-2.5 rounded-full border border-border bg-bg-card focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/20 transition-all text-primary;
         font-family: 'Work Sans', sans-serif;
     }
     
     /* Hero section */
     .hero-gradient {
-        @apply bg-gradient-to-br from-rust/5 to-rust/10;
+        @apply bg-gradient-to-br from-purple/5 to-purple/10;
     }
 
-    /* Rust button */
-    .btn-rust {
-        @apply bg-rust text-white hover:bg-rust/80 transition-all duration-300 shadow-lg shadow-rust/20 hover:shadow-rust/40 transform hover:scale-105 font-medium;
+    /* Purple button */
+    .btn-purple {
+        @apply bg-purple text-white hover:bg-purple/80 transition-all duration-300 shadow-lg shadow-purple/20 hover:shadow-purple/40 transform hover:scale-105 font-medium;
         font-family: 'Poppins', sans-serif;
     }
 
     /* Card hover */
     .card-hover {
-        @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-xl;
+        @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-xl border border-border hover:border-purple/30;
+        background-color: var(--color-bg-card);
     }
 
-    /* Nav link with rust underline */
+    /* Nav link with purple underline - FIXED: removed 'group' from @apply */
     .nav-link {
-        @apply relative text-white/70 hover:text-white transition-colors duration-300 py-1 group font-medium;
+        @apply relative text-secondary hover:text-primary transition-colors duration-300 py-1 font-medium;
         font-family: 'Poppins', sans-serif;
     }
 
     .nav-link::after {
-        @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-rust transition-all duration-300;
+        content: '';
+        @apply absolute bottom-0 left-0 w-0 h-0.5 bg-purple transition-all duration-300;
     }
 
     .nav-link:hover::after {
@@ -405,28 +556,52 @@
     }
 
     .nav-link.active {
-        @apply text-white;
+        @apply text-primary;
     }
 
     .nav-link.active::after {
         @apply w-full;
     }
 
-    /* Dark theme card */
+    /* Card dark */
     .card-dark {
-        @apply bg-[#121212] border border-white/5 rounded-2xl hover:border-rust/30 transition-all duration-300;
+        @apply bg-bg-card border border-border rounded-2xl hover:border-purple/30 transition-all duration-300;
     }
 
-    /* Dark theme input */
+    /* Input dark */
     .input-dark {
-        @apply w-full px-4 py-2.5 rounded-xl bg-[#0a0a0a]/80 border border-white/5 text-white placeholder:text-white/20 focus:outline-none focus:border-rust focus:ring-1 focus:ring-rust/30 transition-all duration-300 text-base;
+        @apply w-full px-4 py-2.5 rounded-xl bg-bg-card/80 border border-border text-primary placeholder:text-muted focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple/30 transition-all duration-300 text-base;
         font-family: 'Work Sans', sans-serif;
     }
 
-    /* Dark theme button */
+    /* Button dark */
     .btn-dark {
-        @apply bg-rust text-white hover:bg-rust/80 transition-all duration-300 shadow-lg shadow-rust/20 hover:shadow-rust/40 transform hover:scale-[1.02] font-semibold rounded-xl px-6 py-2.5;
+        @apply bg-purple text-white hover:bg-purple/80 transition-all duration-300 shadow-lg shadow-purple/20 hover:shadow-purple/40 transform hover:scale-[1.02] font-semibold rounded-xl px-6 py-2.5;
         font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Theme toggle button */
+    .theme-toggle {
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        color: var(--color-text-primary);
+        padding: 8px 12px;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: 'Work Sans', sans-serif;
+    }
+    .theme-toggle:hover {
+        background: var(--color-primary);
+        color: #ffffff;
+        border-color: var(--color-primary);
+    }
+    .theme-toggle svg {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -441,10 +616,10 @@
         text-wrap: balance;
     }
     
-    /* Custom scrollbar using rust color scheme */
+    /* Custom scrollbar using purple color scheme */
     .scrollbar-custom {
         scrollbar-width: thin;
-        scrollbar-color: #c45a2e #0a0a0a;
+        scrollbar-color: var(--color-primary) var(--color-bg);
     }
     
     .scrollbar-custom::-webkit-scrollbar {
@@ -452,15 +627,15 @@
     }
     
     .scrollbar-custom::-webkit-scrollbar-track {
-        @apply bg-black/50;
+        @apply bg-bg-light/50;
     }
     
     .scrollbar-custom::-webkit-scrollbar-thumb {
-        @apply bg-rust/40 rounded-full;
+        @apply bg-purple/40 rounded-full;
     }
     
     .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-        @apply bg-rust/60;
+        @apply bg-purple/60;
     }
 
     /* Animations */
@@ -538,18 +713,18 @@
         background: conic-gradient(
             transparent 0deg,
             transparent 260deg,
-            #c45a2e 290deg,
-            #d4783e 320deg,
-            #e06d44 345deg,
+            #7C3AED 290deg,
+            #6D28D9 320deg,
+            #A78BFA 345deg,
             #ffffff 360deg
         );
         animation: rotate-beam 18s linear infinite;
-        filter: drop-shadow(0 0 10px #c45a2e) drop-shadow(0 0 20px #d4783e);
+        filter: drop-shadow(0 0 10px #7C3AED) drop-shadow(0 0 20px #6D28D9);
         z-index: -1;
     }
 
     .neon-tracer .inner {
-        @apply relative z-10 bg-[#121212] rounded-[calc(1.5rem-2px)] p-6 sm:p-8;
+        @apply relative z-10 bg-bg-card rounded-[calc(1.5rem-2px)] p-6 sm:p-8;
     }
 
     /* Poppins + Work Sans utility classes */

@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -18,34 +19,35 @@ class PostController extends Controller
         $search = trim($request->query('q', ''));
         $page = max((int) $request->query('page', 1), 1);
 
+        // If HTMX request, return suggestions
         if ($request->header('HX-Request') && $search !== '') {
             return $this->suggestions($request);
         }
 
+        // Build the query
+        $query = Post::with(['user', 'category'])
+            ->where('status', 'published');
+
+        // Apply search filter if search term exists
         if ($search !== '') {
-            $posts = Post::with('category')
-                ->where('status', 'published')
-                ->where(function ($query) use ($search) {
-                    $query->where('title', 'like', "%{$search}%")
-                          ->orWhere('content', 'like', "%{$search}%")
-                          ->orWhere('body', 'like', "%{$search}%");
-                })
-                ->latest()
-                ->paginate(12)
-                ->appends(['q' => $search]);
-        } else {
-            // Flexible query check (Handles null published_at dates safely)
-            $posts = Post::with('category')
-                ->where('status', 'published')
-                ->latest()
-                ->paginate(12);
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('body', 'LIKE', "%{$search}%")
+                    ->orWhere('content', 'LIKE', "%{$search}%");
+            });
         }
 
+        $posts = $query->latest('published_at')
+            ->paginate(12)
+            ->appends(['q' => $search]);
+
         $categories = Category::orderBy('name')->get();
+        $navCategories = Category::orderBy('name')->take(6)->get();
 
         return view('posts.index', compact(
             'posts',
             'categories',
+            'navCategories',
             'search'
         ));
     }
@@ -63,14 +65,15 @@ class PostController extends Controller
 
         $posts = Post::query()
             ->where('status', 'published')
-            ->where('title', 'like', "%{$query}%")
-            ->select(['id', 'title', 'slug', 'published_at'])
-            ->latest()
+            ->where('title', 'LIKE', "%{$query}%")
+            ->with(['user', 'category'])
+            ->select(['id', 'title', 'slug', 'published_at', 'category_id', 'user_id'])
+            ->latest('published_at')
             ->limit(5)
             ->get();
 
         $categories = Category::query()
-            ->where('name', 'like', "%{$query}%")
+            ->where('name', 'LIKE', "%{$query}%")
             ->select(['id', 'name', 'slug'])
             ->orderBy('name')
             ->limit(4)
@@ -96,8 +99,8 @@ class PostController extends Controller
                 $query->where('status', 'published');
             },
         ])
-        ->orderBy('name')
-        ->get();
+            ->orderBy('name')
+            ->get();
 
         return view('posts.categories', compact('categories'));
     }
@@ -109,29 +112,29 @@ class PostController extends Controller
     {
         $search = trim($request->query('q', ''));
 
+        $query = Post::with(['user', 'category'])
+            ->where('category_id', $category->id)
+            ->where('status', 'published');
+
         if ($search !== '') {
-            $posts = Post::with('category')
-                ->where('category_id', $category->id)
-                ->where('status', 'published')
-                ->where(function ($query) use ($search) {
-                    $query->where('title', 'like', "%{$search}%")
-                          ->orWhere('content', 'like', "%{$search}%");
-                })
-                ->latest()
-                ->paginate(12)
-                ->appends(['q' => $search]);
-        } else {
-            $posts = $category->posts()
-                ->where('status', 'published')
-                ->latest()
-                ->paginate(12);
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('body', 'LIKE', "%{$search}%")
+                    ->orWhere('content', 'LIKE', "%{$search}%");
+            });
         }
 
+        $posts = $query->latest('published_at')
+            ->paginate(12)
+            ->appends(['q' => $search]);
+
         $categories = Category::orderBy('name')->get();
+        $navCategories = Category::orderBy('name')->take(6)->get();
 
         return view('posts.index', compact(
             'posts',
             'categories',
+            'navCategories',
             'category',
             'search'
         ));
@@ -149,15 +152,44 @@ class PostController extends Controller
             /** @var \App\Models\User $user */
             $user = Auth::user();
 
-            // Sync post to user history without creating duplicate rows, updating timestamp
+            // Check if history record already exists
+            $existing = DB::table('post_user_history')
+                ->where('post_id', $post->id)
+                ->where('user_id', $user->id)
+                ->first();
+
+            if ($existing) {
+                // Update existing record
+                DB::table('post_user_history')
+                    ->where('post_id', $post->id)
+                    ->where('user_id', $user->id)
+                    ->update([
+                        'viewed_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+            } else {
+                // Insert new record
+                DB::table('post_user_history')->insert([
+                    'post_id' => $post->id,
+                    'user_id' => $user->id,
+                    'viewed_at' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // Also sync via the many-to-many relationship for user's read history
             $user->readHistory()->syncWithoutDetaching([
-                $post->id => ['updated_at' => now()]
+                $post->id => [
+                    'viewed_at' => now(),
+                    'updated_at' => now()
+                ]
             ]);
         }
 
-        $post->load('category');
+        $post->load(['user', 'category']);
 
-        $relatedPosts = Post::with('category')
+        $relatedPosts = Post::with(['user', 'category'])
             ->where('id', '!=', $post->id)
             ->where('status', 'published')
             ->inRandomOrder()

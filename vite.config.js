@@ -8,4 +8,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: '127.0.0.1',
+        cors: true,
+        hmr: {
+            host: 'jolie-suable-jurnee.ngrok-free.dev',
+        },
+    },
 });

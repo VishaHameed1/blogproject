@@ -26,6 +26,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserActivityController;
 
 use App\Http\Controllers\Auth\PinResetController;
+use App\Http\Controllers\NewsletterController;
 
 
 /*
@@ -475,5 +476,12 @@ Route::get('forgot-password-pin', [PinResetController::class, 'showEmailForm'])-
 Route::post('forgot-password-pin', [PinResetController::class, 'sendPin'])->name('password.email.pin');
 Route::get('verify-pin', [PinResetController::class, 'showVerifyForm'])->name('password.verify.form');
 Route::post('verify-pin-login', [PinResetController::class, 'verifyPinAndLogin'])->name('password.verify.login');
+
+/*
+|--------------------------------------------------------------------------
+| Newsletter Routes
+|--------------------------------------------------------------------------
+*/
+Route::post('/newsletter/subscribe', [App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
 require __DIR__ . '/auth.php';
