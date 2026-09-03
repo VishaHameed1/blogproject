@@ -105,7 +105,6 @@ Route::get('/dashboard', function () {
     */
 
     return view('dashboard');
-
 })
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -124,8 +123,8 @@ Route::middleware(['auth'])->group(function () {
     | Profile & Account Management
     |--------------------------------------------------------------------------
     */
-    Route::get('/saved-posts', [UserProfileController::class, 'saved'])
-        ->name('users.saved');
+    // Route::get('/saved-posts', [UserProfileController::class, 'saved'])
+    //     ->name('users.saved');
 
     Route::post('/saved-posts', [UserProfileController::class, 'toggleSave'])
         ->name('users.saved.store');
