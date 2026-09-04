@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -13,16 +14,18 @@ use Illuminate\Support\Facades\Auth;
 class PinResetController extends Controller
 {
     // 1. Show Email Input Form
-    public function showEmailForm() {
+    public function showEmailForm()
+    {
         return view('auth.forgot-password-pin');
     }
 
     // 2. Send 6-Digit PIN to Email
-    public function sendPin(Request $request) {
+    public function sendPin(Request $request)
+    {
         $request->validate(['email' => 'required|email|exists:users,email']);
 
         $user = User::where('email', $request->email)->first();
-        $pin = rand(100000, 999999); // 6-digit code
+        $pin = \round(100000, 999999);
 
         // Store PIN in password_reset_tokens table (or cache)
         DB::table('password_reset_tokens')->updateOrInsert(
@@ -39,16 +42,18 @@ class PinResetController extends Controller
         });
 
         return redirect()->route('password.verify.form', ['email' => $request->email])
-                         ->with('status', 'A 6-digit PIN has been sent to your email.');
+            ->with('status', 'A 6-digit PIN has been sent to your email.');
     }
 
     // 3. Show PIN Verification Form
-    public function showVerifyForm(Request $request) {
+    public function showVerifyForm(Request $request)
+    {
         return view('auth.verify-pin', ['email' => $request->query('email')]);
     }
 
     // 4. Verify PIN and Login User
-    public function verifyPinAndLogin(Request $request) {
+    public function verifyPinAndLogin(Request $request)
+    {
         $request->validate([
             'email' => 'required|email|exists:users,email',
             'pin' => 'required|numeric|digits:6',
@@ -66,6 +71,6 @@ class PinResetController extends Controller
         $user = User::where('email', $request->email)->first();
         Auth::login($user);
 
-        return redirect()->intended('/dashboard'); 
+        return redirect()->intended('/dashboard');
     }
 }
