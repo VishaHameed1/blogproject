@@ -6,8 +6,8 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;        // ✅ Added for logging
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -212,7 +212,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'body' => 'required|string',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image_upload' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
         ]);
 
         $post = new Post();
@@ -221,29 +221,52 @@ class PostController extends Controller
         $post->category_id = $validated['category_id'];
         $post->body = $validated['body'];
         $post->user_id = Auth::id();
-        $post->status = 'draft';
-        $post->is_published = false;
 
-        if ($request->hasFile('featured_image')) {
-            $image = $request->file('featured_image');
-            $filename = time() . '_' . $image->getClientOriginalName();
-            $path = $image->storeAs('posts', $filename, 'public');
+        // Handle publish status from checkbox
+        $isPublished = $request->has('is_published');
+        $post->status = $isPublished ? 'published' : 'draft';
+        $post->is_published = $isPublished;
+        $post->published_at = $isPublished ? now() : null;
 
-            // Optimize image
-            $imagePath = storage_path('app/public/' . $path);
-            $img = Image::make($imagePath);
-            $img->resize(800, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $img->save($imagePath, 80);
+        // Handle image upload with correct field name
+        if ($request->hasFile('image_upload')) {
+            try {
+                $image = $request->file('image_upload');
+                $extension = $image->getClientOriginalExtension();
+                $filename = time() . '_' . uniqid() . '.' . $extension;
+                $path = $image->storeAs('posts', $filename, 'public');
 
-            $post->featured_image = $path;
+                if (!$path) {
+                    throw new \Exception('Failed to store image');
+                }
+
+                // Optimize image with GD
+                if (extension_loaded('gd')) {
+                    try {
+                        $imagePath = storage_path('app/public/' . $path);
+                        $img = Image::make($imagePath);
+                        $img->resize(800, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                        $img->save($imagePath, 80);
+                    } catch (\Exception $e) {
+                        Log::warning('Image optimization failed: ' . $e->getMessage());
+                    }
+                }
+
+                $post->featured_image = $path;
+            } catch (\Exception $e) {
+                Log::error('Image upload failed: ' . $e->getMessage());
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Image upload failed: ' . $e->getMessage());
+            }
         }
 
         $post->save();
 
-        return redirect()->route('posts.show', $post->slug)
+        return redirect()->route('admin.posts.index')
             ->with('success', 'Post created successfully!');
     }
 
@@ -256,7 +279,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'body' => 'required|string',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image_upload' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
         ]);
 
         $post->title = $validated['title'];
@@ -264,31 +287,56 @@ class PostController extends Controller
         $post->category_id = $validated['category_id'];
         $post->body = $validated['body'];
 
-        if ($request->hasFile('featured_image')) {
-            // Delete old image
-            if ($post->featured_image) {
-                Storage::disk('public')->delete($post->featured_image);
+        // Handle publish status
+        $isPublished = $request->has('is_published');
+        $post->status = $isPublished ? 'published' : 'draft';
+        $post->is_published = $isPublished;
+        $post->published_at = $isPublished ? now() : null;
+
+        // Handle image upload with correct field name
+        if ($request->hasFile('image_upload')) {
+            try {
+                // Delete old image
+                if ($post->featured_image) {
+                    Storage::disk('public')->delete($post->featured_image);
+                }
+
+                $image = $request->file('image_upload');
+                $extension = $image->getClientOriginalExtension();
+                $filename = time() . '_' . uniqid() . '.' . $extension;
+                $path = $image->storeAs('posts', $filename, 'public');
+
+                if (!$path) {
+                    throw new \Exception('Failed to store image');
+                }
+
+                // Optimize image with GD
+                if (extension_loaded('gd')) {
+                    try {
+                        $imagePath = storage_path('app/public/' . $path);
+                        $img = Image::make($imagePath);
+                        $img->resize(800, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                        $img->save($imagePath, 80);
+                    } catch (\Exception $e) {
+                        Log::warning('Image update optimization failed: ' . $e->getMessage());
+                    }
+                }
+
+                $post->featured_image = $path;
+            } catch (\Exception $e) {
+                Log::error('Image update failed: ' . $e->getMessage());
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Image update failed: ' . $e->getMessage());
             }
-
-            $image = $request->file('featured_image');
-            $filename = time() . '_' . $image->getClientOriginalName();
-            $path = $image->storeAs('posts', $filename, 'public');
-
-            // Optimize image
-            $imagePath = storage_path('app/public/' . $path);
-            $img = Image::make($imagePath);
-            $img->resize(800, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $img->save($imagePath, 80);
-
-            $post->featured_image = $path;
         }
 
         $post->save();
 
-        return redirect()->route('posts.show', $post->slug)
+        return redirect()->route('admin.posts.index')
             ->with('success', 'Post updated successfully!');
     }
 }
