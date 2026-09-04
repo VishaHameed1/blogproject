@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
@@ -200,5 +203,94 @@ class PostController extends Controller
             'post',
             'relatedPosts'
         ));
+    }
+
+    /**
+     * Store a newly created post.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'body' => 'required|string',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+
+        $post = new Post();
+        $post->title = $validated['title'];
+        $post->slug = Str::slug($validated['title']);
+        $post->category_id = $validated['category_id'];
+        $post->body = $validated['body'];
+        $post->user_id = Auth::id();
+        $post->status = 'draft';
+        $post->is_published = false;
+
+        if ($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+            $path = $image->storeAs('posts', $filename, 'public');
+
+            // Optimize image
+            $imagePath = storage_path('app/public/' . $path);
+            $img = Image::make($imagePath);
+            $img->resize(800, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $img->save($imagePath, 80);
+
+            $post->featured_image = $path;
+        }
+
+        $post->save();
+
+        return redirect()->route('posts.show', $post->slug)
+            ->with('success', 'Post created successfully!');
+    }
+
+    /**
+     * Update an existing post.
+     */
+    public function update(Request $request, Post $post)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'body' => 'required|string',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+
+        $post->title = $validated['title'];
+        $post->slug = Str::slug($validated['title']);
+        $post->category_id = $validated['category_id'];
+        $post->body = $validated['body'];
+
+        if ($request->hasFile('featured_image')) {
+            // Delete old image
+            if ($post->featured_image) {
+                Storage::disk('public')->delete($post->featured_image);
+            }
+
+            $image = $request->file('featured_image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+            $path = $image->storeAs('posts', $filename, 'public');
+
+            // Optimize image
+            $imagePath = storage_path('app/public/' . $path);
+            $img = Image::make($imagePath);
+            $img->resize(800, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $img->save($imagePath, 80);
+
+            $post->featured_image = $path;
+        }
+
+        $post->save();
+
+        return redirect()->route('posts.show', $post->slug)
+            ->with('success', 'Post updated successfully!');
     }
 }
