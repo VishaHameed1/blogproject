@@ -35,8 +35,7 @@ class PostController extends Controller
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'LIKE', "%{$search}%")
-                    ->orWhere('body', 'LIKE', "%{$search}%")
-                    ->orWhere('content', 'LIKE', "%{$search}%");
+                    ->orWhere('body', 'LIKE', "%{$search}%");
             });
         }
 
@@ -122,8 +121,7 @@ class PostController extends Controller
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'LIKE', "%{$search}%")
-                    ->orWhere('body', 'LIKE', "%{$search}%")
-                    ->orWhere('content', 'LIKE', "%{$search}%");
+                    ->orWhere('body', 'LIKE', "%{$search}%");
             });
         }
 
