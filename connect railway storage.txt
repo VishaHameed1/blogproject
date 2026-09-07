@@ -1,0 +1,81 @@
+## 🚨 **Found the Issue! The Storage Link is Missing!**
+
+```
+ls: cannot access 'public/storage': No such file or directory
+```
+
+This is exactly why you're getting 403 errors - the **storage link doesn't exist** for categories (and likely for all images).
+
+---
+
+## 🔧 **Fix: Create the Storage Link**
+
+```bash
+# 1. Create the storage link
+ln -s /app/storage/app/public /app/public/storage
+
+# 2. Set proper permissions
+chmod -R 755 storage/app/public
+chmod -R 755 public/storage
+
+# 3. Verify it's created
+ls -la public/storage
+```
+
+**Expected output:**
+```
+lrwxrwxrwx 1 root root 23 Sep 4 10:40 public/storage -> /app/storage/app/public
+```
+
+---
+
+## 🧪 **Test If Images Now Load**
+
+### **1. Test via command line:**
+```bash
+cat public/storage/categories/K7A2ehbI0HuFkgxAUiWP2IVSVgHyfayKSQEf2mZS.jpg
+```
+
+### **2. Test in browser:**
+Visit:
+```
+https://blogproject-production-67f2.up.railway.app/storage/categories/K7A2ehbI0HuFkgxAUiWP2IVSVgHyfayKSQEf2mZS.jpg
+```
+
+---
+
+## 📋 **Why This Happened**
+
+| Issue | Cause |
+|-------|-------|
+| Storage link missing | The symlink was deleted or never created for this deployment |
+| 403 Forbidden | The web server can't access files without the link |
+| Categories not showing | Same issue as posts before we fixed it |
+
+---
+
+## 🚀 **After Creating the Link**
+
+1. **Refresh your admin page** - categories should show images
+2. **Test a new upload** - create a new category with an image
+3. **Check both admin and frontend** - images should display
+
+---
+
+## 📝 **Prevent This in Future**
+
+Add this to your `composer.json` scripts (if not already there):
+
+```json
+"scripts": {
+    "post-autoload-dump": [
+        "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+        "@php artisan package:discover --ansi",
+        "@php artisan storage:link || true"
+    ]
+}
+```
+
+---
+
+**Run the `ln -s` command and test the image URL!** 🚀
