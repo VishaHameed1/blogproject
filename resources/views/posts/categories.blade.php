@@ -123,22 +123,6 @@
         }
 
         /* =========================================================
-           POST COUNT
-        ========================================================= */
-
-        .category-card-count {
-            background: #F8F9FA;
-            color: #6B7280;
-            border-color: #E5E7EB;
-        }
-
-        .dark .category-card-count {
-            background: #000000;
-            color: #A0A0A0;
-            border-color: rgba(255, 255, 255, 0.05);
-        }
-
-        /* =========================================================
            ARROW
         ========================================================= */
 
@@ -468,26 +452,6 @@
                             </div>
 
                             @endif
-
-
-                            {{-- =================================
-                                     POST COUNT
-                                ================================== --}}
-
-                            <div
-                                class="absolute top-3 right-3
-                                           category-card-count
-                                           text-[10px]
-                                           px-2.5 py-0.5
-                                           uppercase tracking-widest
-                                           rounded-full border
-                                           heading-font font-semibold
-                                           shadow-sm">
-
-                                {{ $category->posts_count ?? $category->posts()->whereNotNull('published_at')->count() }}
-                                Posts
-
-                            </div>
 
                         </div>
 
